@@ -7,8 +7,8 @@
       <FileName>src\testApp.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="cameraTracker" />
       <Field Name="vidWarpBox" />
+      <Field Name="cameraTracker" />
       <Field Name="output" />
     </ShowAsAssociation>
   </Class>
@@ -20,7 +20,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="cameraTracking">
-    <Position X="11.25" Y="2.25" Width="2" />
+    <Position X="11.25" Y="2.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>HBMACBAGGFyIgAsQAggIEgBwIAEAAgRYQhAAEAACAAA=</HashCode>
       <FileName>src\tracking\cameraTracking.h</FileName>
@@ -28,16 +28,16 @@
     <ShowAsAssociation>
       <Field Name="outlineContours" />
       <Field Name="motionContours" />
+      <Field Name="opticalFlow" />
       <Field Name="colorImg" />
+      <Field Name="unwarpedGrayImage" />
       <Field Name="grayBg" />
       <Field Name="grayImage" />
       <Field Name="grayImagePrev" />
       <Field Name="grayThresh" />
+      <Field Name="grayThreshPrev" />
       <Field Name="grayThreshDiff" />
       <Field Name="grayThreshDiffDiff" />
-      <Field Name="grayThreshPrev" />
-      <Field Name="opticalFlow" />
-      <Field Name="unwarpedGrayImage" />
     </ShowAsAssociation>
   </Class>
   <Class Name="ofxCvOpticalFlowLK">
@@ -53,16 +53,19 @@
       <HashCode>QRgQAAAAAAAAgAgAAAAAAAAAAAAAAAAAAAAAAggQADg=</HashCode>
       <FileName>src\output\outputRenderer.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="tracking" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="basicRenderer">
-    <Position X="0.75" Y="5" Width="1.5" />
+    <Position X="1.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ARAAAAAAAAAAAAgAAAgAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
       <FileName>src\output\renderers\basicRenderer.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="bubbleRenderer">
-    <Position X="5.5" Y="5" Width="1.5" />
+    <Position X="5.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ARAIAEAAAAAAAAgAAAgAAAAAAQAEAAAAgAQAAgEQAAA=</HashCode>
       <FileName>src\output\renderers\bubbleRenderer.h</FileName>
@@ -75,22 +78,22 @@
       <FileName>src\output\renderers\sandRenderer.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ofxCvContourFinder" Collapsed="true">
-    <Position X="8.5" Y="9" Width="1.5" />
+  <Class Name="ofxCvContourFinder">
+    <Position X="15.75" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>UQAAAAAGAACAiAAgAgIAQgAAAhAAQAAACBACIAAAACA=</HashCode>
       <FileName>D:\SkyDrive\Programming\OpenFrameworks v0071_vs2010_release\addons\ofxOpenCv\src\ofxCvContourFinder.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ofxCvColorImage" Collapsed="true">
-    <Position X="14.5" Y="11.5" Width="1.5" />
+  <Class Name="ofxCvColorImage">
+    <Position X="6.75" Y="12.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gEAAAQAAAAAAAAAQACQBAQAAAAAAEBIAAQAgAAAQRAA=</HashCode>
       <FileName>D:\SkyDrive\Programming\OpenFrameworks v0071_vs2010_release\addons\ofxOpenCv\src\ofxCvColorImage.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ofxCvGrayscaleImage">
-    <Position X="14.5" Y="12.75" Width="1.75" />
+    <Position X="8.5" Y="12.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>gACAAAQACAAgCBAAACQAAAAAAAAAADYAAQApAAgBBAA=</HashCode>
       <FileName>D:\SkyDrive\Programming\OpenFrameworks v0071_vs2010_release\addons\ofxOpenCv\src\ofxCvGrayscaleImage.h</FileName>

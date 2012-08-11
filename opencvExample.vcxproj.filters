@@ -115,6 +115,9 @@
     <ClCompile Include="src\output\renderers\sandRenderer.cpp">
       <Filter>src\output\renderers</Filter>
     </ClCompile>
+    <ClCompile Include="src\output\renderers\pathRenderer.cpp">
+      <Filter>src\output\renderers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -597,6 +600,9 @@
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClInclude>
     <ClInclude Include="src\output\renderers\sandRenderer.h">
+      <Filter>src\output\renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\output\renderers\pathRenderer.h">
       <Filter>src\output\renderers</Filter>
     </ClInclude>
   </ItemGroup>

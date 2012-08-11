@@ -131,6 +131,7 @@
     <ClCompile Include="src\output\outputRenderer.cpp" />
     <ClCompile Include="src\output\renderers\basicRenderer.cpp" />
     <ClCompile Include="src\output\renderers\bubbleRenderer.cpp" />
+    <ClCompile Include="src\output\renderers\pathRenderer.cpp" />
     <ClCompile Include="src\output\renderers\sandRenderer.cpp" />
     <ClCompile Include="src\particles\Particle.cpp" />
     <ClCompile Include="src\particles\ParticleSystem.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="src\output\outputRenderer.h" />
     <ClInclude Include="src\output\renderers\basicRenderer.h" />
     <ClInclude Include="src\output\renderers\bubbleRenderer.h" />
+    <ClInclude Include="src\output\renderers\pathRenderer.h" />
     <ClInclude Include="src\output\renderers\sandRenderer.h" />
     <ClInclude Include="src\particles\Particle.h" />
     <ClInclude Include="src\particles\ParticleSystem.h" />
