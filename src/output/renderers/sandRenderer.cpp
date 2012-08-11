@@ -3,7 +3,7 @@
 void sandRenderer::setup(cameraTracking &cameraTracker)
 {
 	outputRenderer::setup( cameraTracker );
-	initialiseResources();
+	tracking->CTdoOpticalFlow = true;
 }
 
 
@@ -16,11 +16,14 @@ void sandRenderer::initialiseResources()
 void sandRenderer::releaseResources()
 {
 	cout << "\nRELEASING BUBBLE RENDERER RESOURCES";
+	particles.clearParticles();
 }
 
 
 void sandRenderer::render()
 {
+	tracking->CTdoOpticalFlow = true;
+
 	tracking->setColorOutContours( ofColor( 255, 0, 0 ) );
 	
 	//tracking->drawOpticalFlow( outputX, outputY, outputW );
@@ -30,7 +33,7 @@ void sandRenderer::render()
 			
 			for( int i=0; i<10; i++ ){
 					
-				int randBlob  = (int)ofRandom( 0, (tracking->outlineContours.blobs.size()) );
+			int randBlob  = (int)ofRandom( 0, (tracking->outlineContours.blobs.size()) );
 				int randPoint = (int)ofRandom( 0, (tracking->outlineContours.blobs[ randBlob ].pts.size())-1 );
 				
 				ofPoint point = tracking->outlineContours.blobs[ randBlob ].pts[ randPoint ];

@@ -12,5 +12,4 @@ class basicRenderer : public outputRenderer{
 		virtual void releaseResources();
 
 	private :
-		ParticleSystem particles;
 };

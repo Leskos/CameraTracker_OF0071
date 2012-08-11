@@ -6,8 +6,8 @@ void pathRenderer::setup(cameraTracking &cameraTracker)
 
 	maxVertices = 100;
 	smoothAmt   = 0.01;
-
-	initialiseResources();
+	
+	tracking->CTdoOpticalFlow = false;
 }
 
 
@@ -25,6 +25,8 @@ void pathRenderer::releaseResources()
 
 void pathRenderer::render()
 {
+	tracking->CTdoOpticalFlow = false;
+
 	updateSimplePaths();
 
 	float scaleX = outputW / tracking->getImgX();
@@ -73,7 +75,7 @@ void pathRenderer::updateSimplePaths(){
 		}
 
 
-		// create an ofPath from the ofPolyline
+		// create an ofPath from the ofPolyline's vertices
 		path = ofPath();
 
 			vector<ofPoint> vertices = contour.getVertices();
@@ -82,9 +84,9 @@ void pathRenderer::updateSimplePaths(){
 				path.lineTo( vertices.at(i).x, vertices.at(i).y );
 			}
 		
-			path.setFillColor( ofColor( 200, 100, 100, 100 ) );
-			path.setStrokeColor( ofColor( 100, 100, 200 ) );
-			path.setStrokeWidth( 10 );
+			path.setFillColor( ofColor( 200, 150, 100, 100 ) );
+			path.setStrokeColor( ofColor( 255, 255, 255, 150 ) );
+			path.setStrokeWidth( 5 );
 			path.setFilled( true );
 
 		path.close();
