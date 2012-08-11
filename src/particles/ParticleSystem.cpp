@@ -76,6 +76,10 @@ bool ParticleSystem::dead() {
 	}
 }
 
+void ParticleSystem::clearParticles(){
+	particles.clear();
+}
+
 
 
 

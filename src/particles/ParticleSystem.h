@@ -39,6 +39,8 @@ class ParticleSystem {
 		bool dead();
 		
 		bool isParticleDead(Particle _particle);
+
+		void clearParticles();
   
 };
 #endif
