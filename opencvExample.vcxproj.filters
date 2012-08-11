@@ -600,4 +600,7 @@
       <Filter>src\output\renderers</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="classes.cd" />
+  </ItemGroup>
 </Project>
