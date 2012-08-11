@@ -60,6 +60,8 @@ private:
 
 		bool                drawImages;
 		bool                autoBg;
+
+		void changeOutputRenderer( int newOutput );
 			
 };
 

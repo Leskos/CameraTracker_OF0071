@@ -42,6 +42,9 @@ void testApp::setup(void)
 	gui.addTitle( "OUTPUT", 30);
 	gui.addToggle( "Draw Images", drawImages);
 
+	gui.currentPage().setXMLName("cameraTracker_gui_settings.xml");
+	gui.currentPage().setName("Tracking Options");
+
 	currOutput = 0;
 	numOutputs = 4;
 
@@ -79,6 +82,9 @@ void testApp::setup(void)
 	output[2] = new sandRenderer;
 	output[2]->setup( cameraTracker );
 	output[2]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+	gui.addPage("Sand Renderer");
+	gui.setPage("Sand Renderer");
+	gui.addTitle("Nothing Here Yet");
 
 	// Initialise path renderer
 	// -----------------------------------------
@@ -88,7 +94,7 @@ void testApp::setup(void)
 	gui.addPage("Path Renderer");
 	gui.setPage("Path Renderer");
 	gui.addTitle("Simplification Settings");
-	if ( pathRenderer * r = dynamic_cast<pathRenderer*>( output[1] ) ){	
+	if ( pathRenderer * r = dynamic_cast<pathRenderer*>( output[3] ) ){	
 		gui.addSlider( "Max Vertices", r->maxVertices, 5, 100 );
 		gui.addSlider( "Smoothing",    r->smoothAmt,   0, 10  );
 	}
@@ -96,8 +102,8 @@ void testApp::setup(void)
 	
 	//gui.addColorPicker("Outline col");
 	//gui.addColorPicker("Motion  col");
+	gui.setPage("Tracking Options");
 	gui.setDefaultKeys(false);
-	gui.currentPage().setXMLName("cameraTracker_gui_settings.xml");
 	gui.setAutoSave(false);
 }
 
@@ -229,29 +235,49 @@ void testApp::keyPressed  (int key)
 			gui.loadFromXML();
 			break;
 
+		// DISPLAY TRACKING SETTINGS
 		case 's':
-			cameraTracker.showSettings();
+			gui.setPage("TrackingOptions");
+			//cameraTracker.showSettings();
 			break;
 
 		case 'k':
 			if( currOutput == 0 ){
-				currOutput = numOutputs-1;
+				changeOutputRenderer( numOutputs-1 );
 			}
 			else{
-				currOutput--;
-				currOutput = abs(currOutput)%numOutputs;
+				changeOutputRenderer( (currOutput-1)%numOutputs );
 			}
-			output[currOutput]->initialiseResources();
 			break;
 
 		case 'l':
-			currOutput++;
-			currOutput = currOutput%numOutputs;
-			output[currOutput]->initialiseResources();
+			changeOutputRenderer( (currOutput+1) % numOutputs );
 			break;
+			
 
 	}
 }
+
+
+void testApp::changeOutputRenderer( int newOutput ){
+
+	output[currOutput]->releaseResources();
+
+	currOutput = newOutput;
+	output[currOutput]->initialiseResources();
+
+	switch( currOutput ){
+		case 0 : gui.setPage("Tracking Options");
+				 break;
+		case 1 : gui.setPage("Bubble Renderer");
+				 break;
+		case 2 : gui.setPage("Tracking Options");
+				 break;
+		case 3 : gui.setPage("Path Renderer");
+				 break;
+	}
+}
+
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y )
