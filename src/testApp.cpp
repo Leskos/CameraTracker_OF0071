@@ -31,6 +31,7 @@ void testApp::setup(void)
 	gui.addSlider("Blur Amount",     cameraTracker.CTblur,   1, 30);
 	gui.addSlider("Threshold",       cameraTracker.CTthresh, 1, 255);
 	gui.addToggle("Flip Horizontal", cameraTracker.CTflipHorizontal);
+	gui.addToggle("Flip Vertical",   cameraTracker.CTflipVertical);
 
 	gui.addTitle( "OPTICAL FLOW", 30 );
 	gui.addToggle( "Do Optical Flow", cameraTracker.CTdoOpticalFlow );
@@ -42,7 +43,7 @@ void testApp::setup(void)
 	gui.addToggle( "Draw Images", drawImages);
 
 	currOutput = 0;
-	numOutputs = 3;
+	numOutputs = 4;
 
 	// Initialise basic renderer
 	// -----------------------------------------
@@ -73,9 +74,25 @@ void testApp::setup(void)
 		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
 	}
 
+	// Initialise sand renderer
+	// -----------------------------------------
 	output[2] = new sandRenderer;
 	output[2]->setup( cameraTracker );
 	output[2]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+
+	// Initialise path renderer
+	// -----------------------------------------
+	output[3] = new pathRenderer;
+	output[3]->setup( cameraTracker );
+	output[3]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+	gui.addPage("Path Renderer");
+	gui.setPage("Path Renderer");
+	gui.addTitle("Simplification Settings");
+	if ( pathRenderer * r = dynamic_cast<pathRenderer*>( output[1] ) ){	
+		gui.addSlider( "Max Vertices", r->maxVertices, 5, 100 );
+		gui.addSlider( "Smoothing",    r->smoothAmt,   0, 10  );
+	}
+	
 	
 	//gui.addColorPicker("Outline col");
 	//gui.addColorPicker("Motion  col");
@@ -217,13 +234,20 @@ void testApp::keyPressed  (int key)
 			break;
 
 		case 'k':
-			currOutput--;
-			currOutput = abs(currOutput)%numOutputs;
+			if( currOutput == 0 ){
+				currOutput = numOutputs-1;
+			}
+			else{
+				currOutput--;
+				currOutput = abs(currOutput)%numOutputs;
+			}
+			output[currOutput]->initialiseResources();
 			break;
 
 		case 'l':
 			currOutput++;
 			currOutput = currOutput%numOutputs;
+			output[currOutput]->initialiseResources();
 			break;
 
 	}

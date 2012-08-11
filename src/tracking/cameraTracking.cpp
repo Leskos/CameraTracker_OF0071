@@ -27,10 +27,7 @@ void cameraTracking::setup( int camX, int camY )
 {
 		imgX = camX;
 		imgY = camY;
-
-		halfX = imgX/2;
-		halfY = imgY/2;
-
+		
 		processX = imgX;
 		processY = imgY;
 
@@ -59,26 +56,16 @@ void cameraTracking::setup( int camX, int camY )
 		CTthresh         = 10;
 		CTblur           = 15;
 		CTflipHorizontal = false;
+		CTflipVertical   = false;
 
 		OFrowsStep       = 5;
 		OFcolsStep       = 5;
 		OFactivityThresh = 5;
 
-		outContourR = 255;
-		outContourG = 0;
-		outContourB = 0;
-
-		motContourR = 0;
-		motContourG = 255;
-		motContourB = 0;
-
-		int ofR = 0;
-		int ofG = 0;
-		int ofB = 255;
-
-		int bgR = 200;
-		int bgG = 200;
-		int bgB = 200;
+		colorOutContours = ofColor( 255,   0,   0 );
+		colorMotContours = ofColor(   0, 255,   0 );
+		colorOpFlow      = ofColor(   0,   0, 255 );
+		colorBg          = ofColor( 100, 100, 100 );
 }
 
 
@@ -86,11 +73,15 @@ void cameraTracking::setup( int camX, int camY )
 void cameraTracking::drawProcessingImages()
 {
 	// draw the various image processing stages
+	int halfX = imgX/2;
+	int halfY = imgY/2;
+
 	unwarpedGrayImage.draw (  20, 220, imgX*2, imgY*2 );
-	grayBg.draw            (  20, 60, halfX, halfY    );
-	grayImage.draw         ( 200, 60, halfX, halfY    );
-	grayThresh.draw        ( 380, 60, halfX, halfY    );
-	grayThreshDiff.draw    ( 560, 60, halfX, halfY    );
+
+	grayBg.draw            (  20,  60,  halfX, halfY    );
+	grayImage.draw         ( 200,  60,  halfX, halfY    );
+	grayThresh.draw        ( 380,  60,  halfX, halfY    );
+	grayThreshDiff.draw    ( 560,  60,  halfX, halfY    );
 
 	// And label them
 	ofDrawBitmapString("background",   50, 70+halfY);
@@ -103,14 +94,14 @@ void cameraTracking::drawProcessingImages()
 void cameraTracking::drawContours( int x, int y, int w, int h )
 {
 	// Draw a background to display our contours
-	ofNoFill();
-	ofSetColor( bgR, bgG, bgB );
+	ofFill();
+	ofSetColor( colorBg.r, colorBg.g, colorBg.b, colorBg.a ); 
 	ofRect( x, y, w, h );
 
 	// Draw the outline contours in blue, and the frameDiff ones in purple
 	outlineContours.draw( x, y, w, h );
 	motionContours.draw(  x, y, w, h );
-	
+
 	// If we want access to individual blobs, use this :
 	/*
     for (int i = 0; i < contourFinder.nBlobs; i++){
@@ -126,52 +117,10 @@ void cameraTracking::drawOpticalFlow( int x, int y, int w )
 	{
 		glPushMatrix();
 			glTranslatef( x, y, 0);
-			//opticalFlow.drawScaled( ( w/processX ) );
+			//opticalFlow.draw( imgX*2, imgY*2 );
 		glPopMatrix();
 	}
 
-	if( true ){
-		/*
-		IplImage * velX = opticalFlow.getVelX();
-		IplImage * velY = opticalFlow.getVelY();
-		
-		// Create an image for the output
-		IplImage* out = cvCreateImage( cvGetSize(velX), IPL_DEPTH_8U, 3 );
-
-		// Perform a Gaussian blur
-		cvSmooth( velX, out, CV_GAUSSIAN, 11, 11 );
-
-		float scale = w/processX;
-
-		ofEnableAlphaBlending();
-        ofSetColor( 200, 200, 0 );
-        ofNoFill();
-
-        int x, y, dx, dy;
-		float xScaled = 0;
-		float yScaled = 0;
-
-
-        for ( y = 0; y < imgY; y+=OFrowsStep ){
-
-			xScaled = 0;
-
-                for ( x = 0; x < imgX; x+=OFcolsStep ){
-
-                        dx = (int)cvGetReal2D( velX, y, x );
-                        dy = (int)cvGetReal2D( velY, y, x );
-	
-						if( dx > CTthresh || dy > CTthresh ){
-							ofLine( xScaled , yScaled , xScaled+dx, yScaled+dy);
-						}
-                        
-						xScaled = (xScaled + scale*OFcolsStep);
-                }
-			yScaled = ( yScaled + scale*OFrowsStep );
-        }
-        ofDisableAlphaBlending();
-		*/
-	}
 }
 
 
@@ -202,7 +151,7 @@ void cameraTracking::doTracking( int x1, int y1,
 						 x1, y1, x2, y2, x3, y3, x4, y4,
 						 1 );
 		
-		grayImage.mirror(false, CTflipHorizontal);
+		grayImage.mirror( CTflipVertical, CTflipHorizontal);
 
 		// If necessary, use this frame as the background 
 		if ( learnBg )
@@ -265,31 +214,25 @@ void cameraTracking::showSettings(){
 }
 
 
-void cameraTracking::setOutContourColour( int r, int g, int b )
+void cameraTracking::setColorOutContours( ofColor newColor )
 {
-	outContourR = r;
-	outContourG = g;
-	outContourB = b;
+	colorOutContours = newColor;
 }
 
 
-void cameraTracking::setMotContourColour( int r, int g, int b )
+void cameraTracking::setColorMotContour( ofColor newColor )
 {
-	motContourR = r;
-	motContourG = g;
-	motContourB = b;
+	colorMotContours = newColor;
 }
 
-void cameraTracking::setOfColour( int r, int g, int b )
+void cameraTracking::setColorOpFlow( ofColor newColor )
 {
-	//opticalFlow.setColour( r, g, b );
+	colorOpFlow = newColor;
 }
 
-void cameraTracking::setBgColour( int r, int g, int b )
+void cameraTracking::setColorBg( ofColor newColor )
 {
-	bgR = r;
-	bgG = g;
-	bgB = b;
+	colorBg = newColor;
 }
 
 int cameraTracking::getImgX(){

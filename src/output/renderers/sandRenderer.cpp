@@ -3,14 +3,14 @@
 void sandRenderer::setup(cameraTracking &cameraTracker)
 {
 	outputRenderer::setup( cameraTracker );
-	useOpticalFlow = true;
-	tracking->CTdoOpticalFlow = useOpticalFlow;
+	initialiseResources();
 }
 
 
 void sandRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
+	tracking->CTdoOpticalFlow = true;
 }
 
 void sandRenderer::releaseResources()
@@ -21,7 +21,7 @@ void sandRenderer::releaseResources()
 
 void sandRenderer::render()
 {
-	tracking->setOutContourColour( 255, 0, 0 );
+	tracking->setColorOutContours( ofColor( 255, 0, 0 ) );
 	
 	//tracking->drawOpticalFlow( outputX, outputY, outputW );
 

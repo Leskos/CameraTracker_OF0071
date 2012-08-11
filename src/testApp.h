@@ -11,6 +11,8 @@
 #include "basicRenderer.h"
 #include "bubbleRenderer.h"
 #include "sandRenderer.h"
+#include "pathRenderer.h"
+
 
 class testApp : public ofBaseApp
 {
@@ -28,10 +30,13 @@ class testApp : public ofBaseApp
 		void windowResized( int w, int h );
 
 private:
+
 		int camX;
 		int camY;
+	
 		int processX;
 		int processY;
+		
 		int halfX;
 		int halfY;
 

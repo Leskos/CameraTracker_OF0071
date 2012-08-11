@@ -3,8 +3,6 @@
 void bubbleRenderer::setup(cameraTracking &cameraTracker)
 {
 	outputRenderer::setup( cameraTracker );
-	useOpticalFlow = true;
-	tracking->CTdoOpticalFlow = useOpticalFlow;
 
 	// Default values for controllable parameters
 	sizeMin          = 10;
@@ -15,12 +13,15 @@ void bubbleRenderer::setup(cameraTracking &cameraTracker)
 	dragMax          = 0.98;
 	ofAvgArea        = 15;
 	opFlowForceScale = 140;
+
+	initialiseResources();
 }
 
 
 void bubbleRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
+	tracking->CTdoOpticalFlow = true;
 }
 
 void bubbleRenderer::releaseResources()
@@ -31,7 +32,7 @@ void bubbleRenderer::releaseResources()
 
 void bubbleRenderer::render()
 {
-	tracking->setOutContourColour( 255, 0, 0 );
+	tracking->setColorOutContours( ofColor( 355, 0, 0 ) );
 	//tracking->drawContours( outputX, outputY, outputW, outputH );
 	//tracking->drawOpticalFlow( outputX, outputY, outputW );
 

@@ -10,9 +10,11 @@ class cameraTracking{
 
 	public :
 
+		// 
 		int  CTthresh;
 		int	 CTblur;
 		bool CTflipHorizontal;
+		bool CTflipVertical;
 		bool CTdoOpticalFlow;
 
 		int   OFrowsStep;
@@ -23,23 +25,24 @@ class cameraTracking{
 		ofxCvContourFinder 	motionContours;
 
 	    ofxCvOpticalFlowLK  opticalFlow;
-	
-		
+
+
 		void setup( int camX, int camY);
 
 		void doTracking( int x1, int y1, 
 					     int x2, int y2,
 						 int x3, int y3,
 						 int x4, int y4 );
-	
+
+
 		void drawProcessingImages();
 		void drawContours( int x, int y, int w, int h );
 		void drawOpticalFlow( int x, int y, int w );
 
-		void setOutContourColour( int r, int g, int b );
-		void setMotContourColour( int r, int g, int b );
-		void setOfColour(         int r, int g, int b );
-		void setBgColour(         int r, int g, int b );
+		void setColorOutContours( ofColor newColor );
+		void setColorMotContour(  ofColor newColor );
+		void setColorOpFlow(      ofColor newColor );
+		void setColorBg(          ofColor newColor );
 
 		void learnBackGround();
 
@@ -56,8 +59,7 @@ class cameraTracking{
 	
 		int imgX;
 		int imgY;
-		int halfX;
-		int halfY;
+
 		int processX; 
 		int processY;
 
@@ -77,23 +79,11 @@ class cameraTracking{
 		
 		bool				learnBg;
 
-		// OUTPUT COLOURS ### COULD BE STORED MORE EFFICIENTLY ###
-		
-		int outContourR;
-		int outContourG;
-		int outContourB;
-
-		int motContourR;
-		int motContourG;
-		int motContourB;
-
-		int ofR;
-		int ofG;
-		int ofB;
-
-		int bgR;
-		int bgG;
-		int bgB;
+		// OUTPUT COLOURS 
+		ofColor colorOutContours;
+		ofColor colorMotContours;
+		ofColor colorOpFlow;
+		ofColor colorBg;
 };
 
 #endif

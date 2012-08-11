@@ -21,7 +21,7 @@ void basicRenderer::releaseResources()
 
 void basicRenderer::render()
 {
-	tracking->setOutContourColour( 0, 255, 255 );
+	tracking->setColorOutContours( ofColor( 0, 255, 255 ) );
 
 	tracking->drawContours( outputX, outputY, outputW, outputH );
 	tracking->drawOpticalFlow( outputX, outputY, outputW );
