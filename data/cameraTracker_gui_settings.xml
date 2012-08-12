@@ -1,0 +1,38 @@
+<controls>
+    <SliderInt_Blur_Amount>
+        <name>Blur Amount</name>
+        <value>15</value>
+    </SliderInt_Blur_Amount>
+    <SliderInt_Threshold>
+        <name>Threshold</name>
+        <value>10</value>
+    </SliderInt_Threshold>
+    <Toggle_Flip_Horizontal>
+        <name>Flip Horizontal</name>
+        <value>0</value>
+    </Toggle_Flip_Horizontal>
+    <Toggle_Flip_Vertical>
+        <name>Flip Vertical</name>
+        <value>0</value>
+    </Toggle_Flip_Vertical>
+    <Toggle_Do_Optical_Flow>
+        <name>Do Optical Flow</name>
+        <value>173</value>
+    </Toggle_Do_Optical_Flow>
+    <SliderInt_OF_Cols_Step>
+        <name>OF Cols Step</name>
+        <value>5</value>
+    </SliderInt_OF_Cols_Step>
+    <SliderInt_OF_Rows_Step>
+        <name>OF Rows Step</name>
+        <value>5</value>
+    </SliderInt_OF_Rows_Step>
+    <SliderFloat_threshold>
+        <name>threshold</name>
+        <value>5</value>
+    </SliderFloat_threshold>
+    <Toggle_Draw_Images>
+        <name>Draw Images</name>
+        <value>1</value>
+    </Toggle_Draw_Images>
+</controls>
