@@ -82,7 +82,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat />
-      <AdditionalIncludeDirectories>.\src\particles;.\src\tracking;.\src\utilities;.\src\output\renderers;.\src\output;.\addons\ofxVectorMath\src;.\addons\ofxSimpleGuiToo\src;.\addons\ofxSimpleGuiToo\src\Controls;.\addons\ofxXmlSettings\src;.\addons\ofxXmlSettings\libs;.\addons\ofxMSAInteractiveObject\src;%(AdditionalIncludeDirectories);..\..\..\addons\ofxVectorMath\src;..\..\..\addons\ofxOpenCv\libs;..\..\..\addons\ofxOpenCv\libs\opencv;..\..\..\addons\ofxOpenCv\libs\opencv\include;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\calib3d;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\contrib;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\core;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\features2d;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\flann;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\gpu;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\highgui;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\imgproc;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\legacy;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\ml;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\objdetect;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\ts;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\video;..\..\..\addons\ofxOpenCv\libs\opencv\lib;..\..\..\addons\ofxOpenCv\libs\opencv\lib\vs2010;..\..\..\addons\ofxOpenCv\src;src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\bin\data;.\src\particles;.\src\tracking;.\src\utilities;.\src\output\renderers;.\src\output;.\addons\ofxVectorMath\src;.\addons\ofxSimpleGuiToo\src;.\addons\ofxSimpleGuiToo\src\Controls;.\addons\ofxXmlSettings\src;.\addons\ofxXmlSettings\libs;.\addons\ofxMSAInteractiveObject\src;%(AdditionalIncludeDirectories);..\..\..\addons\ofxVectorMath\src;..\..\..\addons\ofxOpenCv\libs;..\..\..\addons\ofxOpenCv\libs\opencv;..\..\..\addons\ofxOpenCv\libs\opencv\include;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\calib3d;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\contrib;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\core;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\features2d;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\flann;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\gpu;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\highgui;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\imgproc;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\legacy;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\ml;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\objdetect;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\ts;..\..\..\addons\ofxOpenCv\libs\opencv\include\opencv2\video;..\..\..\addons\ofxOpenCv\libs\opencv\lib;..\..\..\addons\ofxOpenCv\libs\opencv\lib\vs2010;..\..\..\addons\ofxOpenCv\src;src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -133,6 +133,8 @@
     <ClCompile Include="src\output\renderers\bubbleRenderer.cpp" />
     <ClCompile Include="src\output\renderers\pathRenderer.cpp" />
     <ClCompile Include="src\output\renderers\sandRenderer.cpp" />
+    <ClCompile Include="src\output\renderers\smokeRenderer.cpp" />
+    <ClCompile Include="src\output\renderers\subliminalRenderer.cpp" />
     <ClCompile Include="src\particles\Particle.cpp" />
     <ClCompile Include="src\particles\ParticleSystem.cpp" />
     <ClCompile Include="src\testApp.cpp" />
@@ -261,6 +263,8 @@
     <ClInclude Include="src\output\renderers\bubbleRenderer.h" />
     <ClInclude Include="src\output\renderers\pathRenderer.h" />
     <ClInclude Include="src\output\renderers\sandRenderer.h" />
+    <ClInclude Include="src\output\renderers\smokeRenderer.h" />
+    <ClInclude Include="src\output\renderers\subliminalRenderer.h" />
     <ClInclude Include="src\particles\Particle.h" />
     <ClInclude Include="src\particles\ParticleSystem.h" />
     <ClInclude Include="src\testApp.h" />

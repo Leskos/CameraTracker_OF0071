@@ -112,10 +112,16 @@
     <ClCompile Include="addons\ofxXmlSettings\libs\tinyxml.cpp">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
+    <ClCompile Include="src\output\renderers\pathRenderer.cpp">
+      <Filter>src\output\renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output\renderers\smokeRenderer.cpp">
+      <Filter>src\output\renderers</Filter>
+    </ClCompile>
     <ClCompile Include="src\output\renderers\sandRenderer.cpp">
       <Filter>src\output\renderers</Filter>
     </ClCompile>
-    <ClCompile Include="src\output\renderers\pathRenderer.cpp">
+    <ClCompile Include="src\output\renderers\subliminalRenderer.cpp">
       <Filter>src\output\renderers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -599,10 +605,16 @@
     <ClInclude Include="addons\ofxXmlSettings\libs\tinyxml.h">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClInclude>
+    <ClInclude Include="src\output\renderers\pathRenderer.h">
+      <Filter>src\output\renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\output\renderers\smokeRenderer.h">
+      <Filter>src\output\renderers</Filter>
+    </ClInclude>
     <ClInclude Include="src\output\renderers\sandRenderer.h">
       <Filter>src\output\renderers</Filter>
     </ClInclude>
-    <ClInclude Include="src\output\renderers\pathRenderer.h">
+    <ClInclude Include="src\output\renderers\subliminalRenderer.h">
       <Filter>src\output\renderers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -71,11 +71,11 @@
       <FileName>src\output\renderers\bubbleRenderer.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="sandRenderer">
+  <Class Name="smokeRenderer">
     <Position X="3.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ARAAAAAAAAAAAAgAAAgAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
-      <FileName>src\output\renderers\sandRenderer.h</FileName>
+      <FileName>src\output\renderers\smokeRenderer.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ofxCvContourFinder">
