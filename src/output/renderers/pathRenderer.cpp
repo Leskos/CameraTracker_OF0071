@@ -35,12 +35,38 @@ void pathRenderer::render()
 	ofGetCurrentRenderer()->translate( outputX, outputY );
 	ofGetCurrentRenderer()->scale( scaleX, scaleY );
 	
+	// Draw the filled in paths
 	for( int i = 0; i < simplePaths.size(); i++ ){
 		simplePaths.at(i).draw( );
 	}
+
+	/*
+	//
+	// !!!! NOT WORKING !!! - Should draw connecting lines between points
+	//
+	ofSetColor( ofColor( 255, 0, 0 ) );
+	ofSetLineWidth(3.0);
+	for( int pointsJoined = 0 ; pointsJoined > 50;  ){
+
+		int randomLineA  = ofRandom( 0, simplePolylines.size() );
+		int randomLineB  = ofRandom( 0, simplePolylines.size() );
+		int randomVertA  = ofRandom( 0, simplePolylines.at(randomLineA).getVertices().size() );
+		int randomVertB  = ofRandom( 0, simplePolylines.at(randomLineB).getVertices().size() );
+
+		ofPoint pointA = simplePolylines.at (randomLineA ).getVertices().at( randomVertA );
+		ofPoint pointB = simplePolylines.at (randomLineA ).getVertices().at( randomVertA );
+		
+		//if( pointA.distance( pointB ) > 100 ){
+		ofLine( pointA.x, pointA.y, pointB.x, pointB.y );
+		pointsJoined += 1;
+		//}
+	}
+	*/
+
 	
 	ofGetCurrentRenderer()->scale( (1/scaleX), (1/scaleY) );
 	ofGetCurrentRenderer()->translate( -outputX, -outputY );
+
 	
 }
 

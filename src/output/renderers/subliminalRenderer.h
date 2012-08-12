@@ -2,7 +2,7 @@
 #include "ParticleSystem.h"
 #include "ofMain.h"
 
-class sandRenderer : public outputRenderer{
+class subliminalRenderer : public outputRenderer{
 	
 	public :
 
@@ -17,7 +17,13 @@ class sandRenderer : public outputRenderer{
 		float dragMin, dragMax;
 		float ofAvgArea;
 		float opFlowForceScale;
+		
+		int     currentImage;
+		bool    fadeOut;
+		bool    getColorRandomly;
 
 	private :
 		ParticleSystem particles;
+
+		ofImage subliminalImage[7];
 };

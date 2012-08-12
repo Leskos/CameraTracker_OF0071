@@ -18,7 +18,8 @@ void testApp::setup(void)
 	camX = 320;
 	camY = 240;
 
-	drawImages = true;
+	drawImages    = true;
+	drawDebugInfo = true;
 
 	vidWarpBox.setup( 20, 220, camX*2, camY*2 );
 	
@@ -44,9 +45,10 @@ void testApp::setup(void)
 
 	gui.currentPage().setXMLName("cameraTracker_gui_settings.xml");
 	gui.currentPage().setName("Tracking Options");
+	gui.saveToXML();
 
 	currOutput = 0;
-	numOutputs = 4;
+	numOutputs = 6;
 
 	// Initialise basic renderer
 	// -----------------------------------------
@@ -55,6 +57,7 @@ void testApp::setup(void)
 	output[0]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Basic Renderer");
 	gui.setPage("Basic Renderer");
+	gui.currentPage().setXMLName("basic_renderer_settings.xml");
 	gui.addTitle("Nothing Here Yet");
 
 	// Initialise bubble renderer
@@ -64,6 +67,7 @@ void testApp::setup(void)
 	output[1]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Bubble Renderer");
 	gui.setPage("Bubble Renderer");
+	gui.currentPage().setXMLName("bubble_renderer_settings.xml");
 	if ( bubbleRenderer * r = dynamic_cast<bubbleRenderer*>( output[1] ) ){			
 		gui.addTitle("Random Parameters");
 		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
@@ -77,9 +81,9 @@ void testApp::setup(void)
 		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
 	}
 
-	// Initialise sand renderer
+	// Initialise smoke renderer
 	// -----------------------------------------
-	output[2] = new sandRenderer;
+	output[2] = new smokeRenderer;
 	output[2]->setup( cameraTracker );
 	output[2]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Sand Renderer");
@@ -93,10 +97,58 @@ void testApp::setup(void)
 	output[3]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Path Renderer");
 	gui.setPage("Path Renderer");
+	gui.currentPage().setXMLName("path_renderer_gui_settings.xml");
 	gui.addTitle("Simplification Settings");
 	if ( pathRenderer * r = dynamic_cast<pathRenderer*>( output[3] ) ){	
 		gui.addSlider( "Max Vertices", r->maxVertices, 5, 100 );
 		gui.addSlider( "Smoothing",    r->smoothAmt,   0, 10  );
+	}
+
+	// Initialise sand renderer
+	// -----------------------------------------
+	output[4] = new sandRenderer();
+	output[4]->setup( cameraTracker );
+	output[4]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+	gui.addPage("Sand Renderer");
+	gui.setPage("Sand Renderer");
+	gui.currentPage().setXMLName("sand_renderer_gui_settings.xml");
+	if ( sandRenderer * r = dynamic_cast<sandRenderer*>( output[4] ) ){			
+		gui.addTitle("Random Parameters");
+		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
+		gui.addSlider( "Life max", r->lifeMax, 10, 300 );
+		gui.addSlider( "Size min", r->sizeMin, 1,  100 );
+		gui.addSlider( "Size max", r->sizeMax, 2,  300 );
+		gui.addSlider( "Drag min", r->dragMin, 0.7, 0.95 );
+		gui.addSlider( "Drag max", r->dragMax, 0.8, 1.0 );
+		gui.addTitle("Optical Flow Stuff");
+		gui.addSlider( "Averaging area", r->ofAvgArea,          1, 40 );
+		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
+	}
+
+	// Initialise subliminal renderer
+	// -----------------------------------------
+	output[5] = new subliminalRenderer();
+	output[5]->setup( cameraTracker );
+	output[5]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+	gui.addPage("Subliminal Renderer");
+	gui.setPage("Subliminal Renderer");
+	gui.currentPage().setXMLName("subliminal_renderer_settings.xml");
+	if ( subliminalRenderer * r = dynamic_cast<subliminalRenderer*>( output[5] ) ){			
+		gui.addTitle("Particles");
+		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
+		gui.addSlider( "Life max", r->lifeMax, 10, 300 );
+		gui.addSlider( "Size min", r->sizeMin, 1,  100 );
+		gui.addSlider( "Size max", r->sizeMax, 2,  300 );
+		gui.addSlider( "Drag min", r->dragMin, 0.7, 0.95 );
+		gui.addSlider( "Drag max", r->dragMax, 0.8, 1.0 );
+		gui.addTitle("Optical Flow");
+		gui.addSlider( "Averaging area", r->ofAvgArea,          1, 40 );
+		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
+		gui.addTitle("Images");
+		gui.addSlider( "Image Number", r->currentImage, 0, 6 );
+		gui.addToggle( "Fade Out", r->fadeOut );
+		gui.addToggle( "Randomised Colours", r->getColorRandomly );
+
 	}
 	
 	
@@ -127,16 +179,19 @@ void testApp::draw()
 {
 
 	// Draw our report string
-	char reportStr[1024];
-	sprintf( reportStr, "FPS: %f \nNum points : %i\nCurrent Output : %i", ofGetFrameRate(), cameraTracker.getNumPoints(), currOutput );
-	ofSetColor(0xffffff);
-	ofDrawBitmapString(reportStr, 10, 20);
+	if( drawDebugInfo ){
+		char reportStr[1024];
+		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %i", ofGetFrameRate(), cameraTracker.getOutContourLength(), cameraTracker.getMotContourLength(), currOutput );
+		ofSetHexColor(0xffffff);
+		ofDrawBitmapString(reportStr, 10, 20);
+	}
+	
 
 	// Draw processing stages if required
 	if( drawImages )
 	{
 		cameraTracker.drawProcessingImages();
-		ofSetColor(0xffffff);
+		ofSetHexColor(0xffffff);
 		vidWarpBox.draw();
 	}
 
@@ -163,6 +218,12 @@ void testApp::keyPressed  (int key)
 		
 		// TOGGLE SHOW IMAGES
 		case 'i':
+			
+			cameraTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
+									  vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
+									  vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
+									  vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2 );	
+
 			drawImages = !drawImages;
 			break;
 
@@ -232,7 +293,12 @@ void testApp::keyPressed  (int key)
 	
 		// LOAD GUI SETTINGS FROM XML
 		case 'x':
-			gui.loadFromXML();
+			gui.currentPage().loadFromXML();
+			break;
+
+		// LOAD GUI SETTINGS FROM XML
+		case 'z':
+			gui.currentPage().saveToXML();
 			break;
 
 		// DISPLAY TRACKING SETTINGS
@@ -246,12 +312,15 @@ void testApp::keyPressed  (int key)
 				changeOutputRenderer( numOutputs-1 );
 			}
 			else{
-				changeOutputRenderer( (currOutput-1)%numOutputs );
+				changeOutputRenderer( (currOutput-1) % numOutputs );
 			}
 			break;
 
 		case 'l':
 			changeOutputRenderer( (currOutput+1) % numOutputs );
+			break;
+		case 'd':
+			drawDebugInfo = !drawDebugInfo;
 			break;
 			
 
@@ -265,7 +334,10 @@ void testApp::changeOutputRenderer( int newOutput ){
 
 	currOutput = newOutput;
 	output[currOutput]->initialiseResources();
-
+	cameraTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
+						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
+						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
+						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2 );
 	switch( currOutput ){
 		case 0 : gui.setPage("Tracking Options");
 				 break;
@@ -274,6 +346,10 @@ void testApp::changeOutputRenderer( int newOutput ){
 		case 2 : gui.setPage("Tracking Options");
 				 break;
 		case 3 : gui.setPage("Path Renderer");
+				 break;
+		case 4 : gui.setPage("Sand Renderer");
+				 break;
+		case 5 : gui.setPage("Subliminal Renderer");
 				 break;
 	}
 }
