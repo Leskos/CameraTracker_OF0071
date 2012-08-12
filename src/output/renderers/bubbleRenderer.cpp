@@ -12,7 +12,7 @@ void bubbleRenderer::setup(cameraTracking &cameraTracker)
 	dragMin          = 0.9;
 	dragMax          = 0.98;
 	ofAvgArea        = 15;
-	opFlowForceScale = 140;
+	opFlowForceScale = 60;
 	
 	tracking->CTdoOpticalFlow = true;
 }

@@ -48,7 +48,8 @@ class cameraTracking{
 
 		void showSettings();
 
-		int getNumPoints();
+		int getOutContourLength();
+		int getMotContourLength();
 
 		int getImgX();
 

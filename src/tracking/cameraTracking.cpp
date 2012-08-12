@@ -186,7 +186,7 @@ void cameraTracking::doTracking( int x1, int y1,
 }
 
 
-int cameraTracking::getNumPoints()
+int cameraTracking::getOutContourLength()
 {
 	int nPoints = 0;	
 	
@@ -195,6 +195,14 @@ int cameraTracking::getNumPoints()
 		nPoints += outlineContours.blobs[i].nPts;
 	}
 
+	return nPoints;
+}
+
+
+int cameraTracking::getMotContourLength()
+{
+	int nPoints = 0;	
+	
 	for( int i=0; i< motionContours.nBlobs; i++ )
 	{
 		nPoints += motionContours.blobs[i].nPts;
@@ -202,6 +210,8 @@ int cameraTracking::getNumPoints()
 
 	return nPoints;
 }
+
+
 
 
 void cameraTracking::learnBackGround()

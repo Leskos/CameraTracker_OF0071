@@ -2,16 +2,19 @@
 #define _TEST_APP
 
 #include "ofMain.h"
-#include "boxWithHandles.h"
 #include "ofxSimpleGuiToo.h"
 #include "ofVectorMath.h"
 #include "ofxOpenCv.h"
+
 #include "ParticleSystem.h"
+#include "boxWithHandles.h"
 
 #include "basicRenderer.h"
 #include "bubbleRenderer.h"
-#include "sandRenderer.h"
+#include "smokeRenderer.h"
 #include "pathRenderer.h"
+#include "sandRenderer.h"
+#include "subliminalRenderer.h"
 
 
 class testApp : public ofBaseApp
@@ -56,9 +59,10 @@ private:
 
 		int numOutputs;
 		int currOutput;
-		outputRenderer *output[3];
+		outputRenderer *output[6];
 
 		bool                drawImages;
+		bool                drawDebugInfo;
 		bool                autoBg;
 
 		void changeOutputRenderer( int newOutput );
