@@ -28,6 +28,8 @@ void testApp::setup(void)
 
 	mouseParticles.init( 10, ofVec2f(50,50) );
 
+	vector<string> presetFiles;
+
 	// Setup the GUI contents
 	gui.addTitle( "IMG PROCESSING", 30);
 	gui.addSlider("Blur Amount",     cameraTracker.CTblur,   1, 30);
@@ -217,7 +219,7 @@ void testApp::keyPressed  (int key)
 			ofToggleFullscreen();
 			break;
 		
-		// TOGGLE SHOW IMAGES
+		// TOGGLE DEBUG IMAGES
 		case 'i':
 			drawImages = !drawImages;
 			break;
@@ -287,14 +289,13 @@ void testApp::keyPressed  (int key)
 			}
 			break;
 	
-		// LOAD GUI SETTINGS FROM XML
+		// LOAD RANDOM PRESET FROM XML
 		case 'l':
-			gui.currentPage().loadFromXML();
-			// IMPLEMENT LOADING
-
+			loadRandomPreset();
 			break;
 
-		// SAVE GUI SETTINGS TO XML
+		
+		// SAVE GUI SETTINGS AS PRESET TO XML
 		case 's':{
 
 			string newFilename  = "./presets/";
@@ -349,17 +350,17 @@ void testApp::changeOutputRenderer( int newOutput ){
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2 );
 	switch( currOutput ){
-		case 0 : gui.setPage("Tracking Options");
+		case 0 : gui.setPage("Tracking_Options");
 				 break;
-		case 1 : gui.setPage("Bubble Renderer");
+		case 1 : gui.setPage("Bubble_Renderer");
 				 break;
-		case 2 : gui.setPage("Tracking Options");
+		case 2 : gui.setPage("Tracking_Options");
 				 break;
-		case 3 : gui.setPage("Path Renderer");
+		case 3 : gui.setPage("Path_Renderer");
 				 break;
-		case 4 : gui.setPage("Sand Renderer");
+		case 4 : gui.setPage("Sand_Renderer");
 				 break;
-		case 5 : gui.setPage("Subliminal Renderer");
+		case 5 : gui.setPage("Subliminal_Renderer");
 				 break;
 	}
 }
@@ -400,14 +401,11 @@ void testApp::windowResized(int w, int h)
 //--------------------------------------------------------------
 string testApp::getTimeString(){
 
-	string output = "";
-
 	time_t curr;
 	tm     local;
 	time( &curr );
 	local =*(localtime(&curr));
 
-	
 	ostringstream convert;   // stream used for the conversion
    
 	convert << local.tm_year;
@@ -422,23 +420,51 @@ string testApp::getTimeString(){
 	convert << "_";
 	convert << local.tm_sec;
 	
-	output = convert.str(); // set 'Result' to the contents of the stream
+	return convert.str();
+}
 
-	/*
-	output += local.tm_year;
-	output += "-";
-	output += local.tm_mon;
-	output += ",";
-	output += local.tm_mday;
-	output += "-";
-	output += local.tm_hour;
-	output += ":";
-	output += local.tm_min;
-	output += ":";
-	output += local.tm_sec;
-	*/
 
-	cout << "\nDATE STRING" << output;
+void testApp::loadRandomPreset(){
 
-	return output;
+	dir.listDir("/presets/");
+	dir.sort();
+
+	vector<int> validPresets;
+	validPresets.clear();
+	size_t found;
+
+	// Store the indexes of all files in /presets/ directory 
+	// whose filename contains the name of our current output
+	if( dir.size() ){
+		for( int i=0; i<dir.size(); i++ ){
+			found = dir.getName(i).find( gui.currentPage().name );
+			if( found != string::npos ){
+				validPresets.push_back(i);
+			}
+		}
+		// Print all matching files
+		cout << "\nFOUND " << validPresets.size() << " " << gui.currentPage().name << " PRESETS : ";
+		for( int i=0; i<validPresets.size(); i++ ){
+			cout << "\n " << dir.getName( validPresets.at(i) );
+		}
+
+		// If we have presets to choose from
+		if( validPresets.size() != 0 ){
+			
+			// Select one at random
+			string randomPreset = "./presets/" + dir.getName( validPresets.at( ofRandom( 0, validPresets.size()-1 ) ) );
+
+			// Format it's filename appropriately
+			found = randomPreset.find(".bak");
+			if( found != string::npos ){
+				string removeTrailing = randomPreset.substr(0,found);
+				randomPreset = removeTrailing;
+			}
+			// And load the preset
+			gui.currentPage().setXMLName( randomPreset );
+			gui.currentPage().loadFromXML();
+		}
+
+				
+	}
 }

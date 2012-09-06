@@ -33,7 +33,8 @@ class testApp : public ofBaseApp
 		void windowResized( int w, int h );
 
 private:
-
+		
+		//  SIZE OF VARIOUS INPUTS & OUTPUTS
 		int camX;
 		int camY;
 	
@@ -52,7 +53,6 @@ private:
 
       	boxWithHandles      vidWarpBox;
 
-		// CAMERA TRACKING
 		cameraTracking      cameraTracker;
 
 		ParticleSystem      mouseParticles;
@@ -61,13 +61,20 @@ private:
 		int currOutput;
 		outputRenderer *output[6];
 
+		ofDirectory dir;
+		vector<ofImage> imageFiles;
+
 		bool                drawImages;
 		bool                drawDebugInfo;
+
+		// MOVE THIS TO OUTPUT PRESETS
 		bool                autoBg;
 
 		void changeOutputRenderer( int newOutput );
 
 		string getTimeString();
+
+		void loadRandomPreset();
 			
 };
 
