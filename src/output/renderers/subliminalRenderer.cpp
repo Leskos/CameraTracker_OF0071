@@ -72,7 +72,7 @@ void subliminalRenderer::render()
 
 				Particle *p = new Particle( ofVec2f( ofRandom(-0.05, 0.05), ofRandom(-0.05, 0.05) ), //ofRandom(-0.1, 0.1 ),
 													 //ofRandom( -0.1, 0.1) ),                     // acc
-   
+
 											ofVec2f( flowAtPoint.x * opFlowForceScale, 
 													  flowAtPoint.y * opFlowForceScale ),  // vel
 

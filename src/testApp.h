@@ -67,7 +67,6 @@ private:
 		bool                drawImages;
 		bool                drawDebugInfo;
 
-		// MOVE THIS TO OUTPUT PRESETS
 		bool                autoBg;
 
 		void changeOutputRenderer( int newOutput );
