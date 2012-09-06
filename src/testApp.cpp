@@ -56,8 +56,8 @@ void testApp::setup(void)
 	output[0] = new basicRenderer;
 	output[0]->setup( cameraTracker );
 	output[0]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Basic Renderer");
-	gui.setPage("Basic Renderer");
+	gui.addPage("Basic_Renderer");
+	gui.setPage("Basic_Renderer");
 	gui.currentPage().setXMLName("basic_renderer_settings.xml");
 	gui.addTitle("Nothing Here Yet");
 
@@ -66,9 +66,9 @@ void testApp::setup(void)
 	output[1] = new bubbleRenderer;
 	output[1]->setup( cameraTracker );
 	output[1]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Bubble Renderer");
-	gui.setPage("Bubble Renderer");
-	gui.currentPage().setXMLName("bubble_renderer_settings.xml");
+	gui.addPage("Bubble_Renderer");
+	gui.setPage("Bubble_Renderer");
+	gui.currentPage().setXMLName("./presets/bubble_renderer_settings.xml");
 	if ( bubbleRenderer * r = dynamic_cast<bubbleRenderer*>( output[1] ) ){			
 		gui.addTitle("Random Parameters");
 		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
@@ -87,8 +87,8 @@ void testApp::setup(void)
 	output[2] = new smokeRenderer;
 	output[2]->setup( cameraTracker );
 	output[2]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Sand Renderer");
-	gui.setPage("Sand Renderer");
+	gui.addPage("Sand_Renderer");
+	gui.setPage("Sand_Renderer");
 	gui.addTitle("Nothing Here Yet");
 
 	// Initialise path renderer
@@ -96,8 +96,8 @@ void testApp::setup(void)
 	output[3] = new pathRenderer;
 	output[3]->setup( cameraTracker );
 	output[3]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Path Renderer");
-	gui.setPage("Path Renderer");
+	gui.addPage("Path_Renderer");
+	gui.setPage("Path_Renderer");
 	gui.currentPage().setXMLName("path_renderer_gui_settings.xml");
 	gui.addTitle("Simplification Settings");
 	if ( pathRenderer * r = dynamic_cast<pathRenderer*>( output[3] ) ){	
@@ -110,8 +110,8 @@ void testApp::setup(void)
 	output[4] = new sandRenderer();
 	output[4]->setup( cameraTracker );
 	output[4]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Sand Renderer");
-	gui.setPage("Sand Renderer");
+	gui.addPage("Sand_Renderer");
+	gui.setPage("Sand_Renderer");
 	gui.currentPage().setXMLName("sand_renderer_gui_settings.xml");
 	if ( sandRenderer * r = dynamic_cast<sandRenderer*>( output[4] ) ){			
 		gui.addTitle("Random Parameters");
@@ -131,8 +131,8 @@ void testApp::setup(void)
 	output[5] = new subliminalRenderer();
 	output[5]->setup( cameraTracker );
 	output[5]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Subliminal Renderer");
-	gui.setPage("Subliminal Renderer");
+	gui.addPage("Subliminal_Renderer");
+	gui.setPage("Subliminal_Renderer");
 	gui.currentPage().setXMLName("subliminal_renderer_settings.xml");
 	if ( subliminalRenderer * r = dynamic_cast<subliminalRenderer*>( output[5] ) ){			
 		gui.addTitle("Particles");
@@ -219,12 +219,6 @@ void testApp::keyPressed  (int key)
 		
 		// TOGGLE SHOW IMAGES
 		case 'i':
-			
-			cameraTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
-									  vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
-									  vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
-									  vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2 );	
-
 			drawImages = !drawImages;
 			break;
 
@@ -245,6 +239,7 @@ void testApp::keyPressed  (int key)
 		// LEARN BACKGROUND
 		case 'b':
 			cameraTracker.learnBackGround();
+			drawImages = false;
 			break;
 		
 		// TOGGLE AUTO CLEAR BACKGROUND
@@ -293,22 +288,35 @@ void testApp::keyPressed  (int key)
 			break;
 	
 		// LOAD GUI SETTINGS FROM XML
-		case 'x':
+		case 'l':
 			gui.currentPage().loadFromXML();
+			// IMPLEMENT LOADING
+
 			break;
 
-		// LOAD GUI SETTINGS FROM XML
-		case 'z':
+		// SAVE GUI SETTINGS TO XML
+		case 's':{
+
+			string newFilename  = "./presets/";
+			newFilename        += gui.currentPage().name;
+			newFilename        += " - ";
+			newFilename        += getTimeString();
+			newFilename        += ".xml";
+
+			cout << "\nNEW NAME "  << newFilename;
+
+			gui.currentPage().setXMLName( newFilename );
 			gui.currentPage().saveToXML();
 			break;
+		 }
 
 		// DISPLAY TRACKING SETTINGS
-		case 's':
+		case 't':
 			gui.setPage("TrackingOptions");
 			//cameraTracker.showSettings();
 			break;
 
-		case 'k':
+		case ',':
 			if( currOutput == 0 ){
 				changeOutputRenderer( numOutputs-1 );
 			}
@@ -317,9 +325,10 @@ void testApp::keyPressed  (int key)
 			}
 			break;
 
-		case 'l':
+		case '.':
 			changeOutputRenderer( (currOutput+1) % numOutputs );
 			break;
+
 		case 'd':
 			drawDebugInfo = !drawDebugInfo;
 			break;
@@ -388,3 +397,48 @@ void testApp::windowResized(int w, int h)
 }
 
 
+//--------------------------------------------------------------
+string testApp::getTimeString(){
+
+	string output = "";
+
+	time_t curr;
+	tm     local;
+	time( &curr );
+	local =*(localtime(&curr));
+
+	
+	ostringstream convert;   // stream used for the conversion
+   
+	convert << local.tm_year;
+	convert << "_";
+	convert << local.tm_mon;
+	convert << "_";
+	convert << local.tm_mday;
+	convert << "_";
+	convert << local.tm_hour;
+	convert << "_";
+	convert << local.tm_min;
+	convert << "_";
+	convert << local.tm_sec;
+	
+	output = convert.str(); // set 'Result' to the contents of the stream
+
+	/*
+	output += local.tm_year;
+	output += "-";
+	output += local.tm_mon;
+	output += ",";
+	output += local.tm_mday;
+	output += "-";
+	output += local.tm_hour;
+	output += ":";
+	output += local.tm_min;
+	output += ":";
+	output += local.tm_sec;
+	*/
+
+	cout << "\nDATE STRING" << output;
+
+	return output;
+}

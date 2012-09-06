@@ -66,6 +66,8 @@ private:
 		bool                autoBg;
 
 		void changeOutputRenderer( int newOutput );
+
+		string getTimeString();
 			
 };
 

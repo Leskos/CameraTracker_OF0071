@@ -8,7 +8,6 @@ class outputRenderer
 
 		int outputX, outputY, outputW, outputH;
 
-		cameraTracking *tracking;
 
 		virtual void setup( cameraTracking &cameraTracker );
 		virtual void render( void );
@@ -25,6 +24,8 @@ class outputRenderer
 		int rgbToHex( int r, int g, int b );
 
 		float outputScaleX, outputScaleY;
+
+		cameraTracking *tracking;
 
 
 
