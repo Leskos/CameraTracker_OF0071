@@ -39,15 +39,17 @@ Particle::Particle( ofVec2f l ) {
 
 //--------------------------------------------------------------
 // Method to update location
-void Particle::update() { 
+void Particle::update( float timeDelta ) { 
 
-	vel.x *= drag;
-	vel.y *= drag;
+	cout << "\nDELTA : " << timeDelta;
+
+	vel.x *=  (drag*timeDelta);
+	vel.y *=  (drag*timeDelta);
 	
-	vel     += acc;
-	prevLoc  = loc;
-	loc     += vel;
-	timer   -= 1.0;
+	vel     += (acc*timeDelta);
+	prevLoc  = (loc*timeDelta);
+	loc     += (vel*timeDelta);
+	timer   -= timeDelta;
 }
 
 //--------------------------------------------------------------

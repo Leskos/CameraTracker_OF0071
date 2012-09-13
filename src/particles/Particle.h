@@ -33,11 +33,11 @@ class Particle {
 		// One constructor
 		Particle(ofVec2f a, ofVec2f v, ofVec2f l, float r_);
 
-		// Another constructor (the one we are using here)
+		// Another constructor 
 		Particle(ofVec2f l);
 
 		// Method to update location
-		void update();
+		void update( float timeDelta );
 
 		// Method to display
 		void render();

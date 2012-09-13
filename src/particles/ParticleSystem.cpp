@@ -12,27 +12,22 @@ ParticleSystem::ParticleSystem() {
    
 }
 
-//--------------------------------------------------------------
-ParticleSystem::ParticleSystem(int num, ofVec2f v) {
-	origin.set(v);					// Store the origin point		
-	for (int i = 0; i < num; i++) {
-		particles.push_back(new Particle(origin));    // Add "num" amount of particles to the arraylist
-	}
 
-}
 //--------------------------------------------------------------
-void ParticleSystem::init(int num, ofVec2f v) {
-	origin.set(v);					// Store the origin point			
-	for (int i = 0; i < num; i++) {
-		particles.push_back(new Particle(origin));    // Add "num" amount of particles to the arraylist
-	}
+void ParticleSystem::init(){
+	lastFrameTime = ofGetElapsedTimeMillis();
+}
 
-}
+
 //--------------------------------------------------------------
-void ParticleSystem::run() {
+void ParticleSystem::update() {
+
+	float timeDelta = (ofGetElapsedTimeMillis() - lastFrameTime)/100;
+	lastFrameTime   = ofGetElapsedTimeMillis();
+
 	// Cycle through the ArrayList backwards b/c we are deleting
 	for (int i = particles.size()-1; i >= 0; i--) {
-		particles[i]->update();
+		particles[i]->update( 1 );
 		if (particles[i]->dead()) {
 			particles.erase(particles.begin() + i);
 		}
@@ -46,10 +41,6 @@ void ParticleSystem::render() {
 	}
 }
 
-//--------------------------------------------------------------
-void ParticleSystem::addParticle() {
-	particles.push_back( new Particle( origin ) );
-}
 
 //--------------------------------------------------------------
 void ParticleSystem::addParticle( Particle *p ) {

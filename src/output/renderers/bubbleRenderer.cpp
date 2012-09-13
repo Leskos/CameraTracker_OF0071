@@ -22,6 +22,7 @@ void bubbleRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
 	tracking->CTdoOpticalFlow = true;
+	particles.init();
 }
 
 void bubbleRenderer::releaseResources()
@@ -72,7 +73,7 @@ void bubbleRenderer::render()
 			}
 		}
 	}
-	particles.run();
+	particles.update();
 	particles.render();
 
 }

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="testApp">
-    <Position X="8.25" Y="1.25" Width="1.5" />
+    <Position X="18.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QigAAABCDBAAAIiAAAIAEAACCAAAAAAAIMAAACAOABg=</HashCode>
+      <HashCode>QigAAABCDDAAAIiAAAIAEEACCAQQBAAIIMAAACAOABg=</HashCode>
       <FileName>src\testApp.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -13,16 +13,16 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="boxWithHandles">
-    <Position X="18" Y="0.75" Width="1.5" />
+    <Position X="25.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAIGgBAAAAwAQAIAIAAAAAAAEAAQIQAACCAAAAQ=</HashCode>
       <FileName>src\utilities\boxWithHandles.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cameraTracking">
-    <Position X="11.25" Y="2.25" Width="2.5" />
+    <Position X="10" Y="2.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>HBMACBAGGFyIgAsQAggIEgBwIAEAAgRYQhAAEAACAAA=</HashCode>
+      <HashCode>GhAAABAGGFSIgAkQAgAIAgAwAAEBBgRYQBAAEAICBCE=</HashCode>
       <FileName>src\tracking\cameraTracking.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -41,7 +41,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ofxCvOpticalFlowLK">
-    <Position X="14.75" Y="2.25" Width="2.75" />
+    <Position X="13.5" Y="2.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>EAwIAAIEAAIAAIAACAIIAAEAgCAIAAEAAAAAAQAAADA=</HashCode>
       <FileName>src\tracking\ofxCvOpticalFlowLK.h</FileName>
@@ -60,7 +60,7 @@
   <Class Name="basicRenderer">
     <Position X="1.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ARAAAAAAAAAAAAgAAAgAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <HashCode>ARAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
       <FileName>src\output\renderers\basicRenderer.h</FileName>
     </TypeIdentifier>
   </Class>

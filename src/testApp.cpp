@@ -26,7 +26,7 @@ void testApp::setup(void)
 	
 	cameraTracker.setup( camX, camY );
 
-	mouseParticles.init( 10, ofVec2f(50,50) );
+	mouseParticles.init();
 
 	vector<string> presetFiles;
 
@@ -173,7 +173,7 @@ void testApp::update()
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2);
-	mouseParticles.run();
+	mouseParticles.update();
 }
 
 
