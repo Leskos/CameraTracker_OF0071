@@ -34,7 +34,7 @@ void subliminalRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
 	tracking->CTdoOpticalFlow = true;
-	particles.init();
+	particles.init( 60 );
 }
 
 void subliminalRenderer::releaseResources()

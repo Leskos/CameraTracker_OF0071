@@ -37,7 +37,7 @@ class Particle {
 		Particle(ofVec2f l);
 
 		// Method to update location
-		void update( float timeDelta );
+		void update();
 
 		// Method to display
 		void render();

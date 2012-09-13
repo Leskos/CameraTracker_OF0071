@@ -20,7 +20,7 @@ class ParticleSystem {
 		
 		ParticleSystem();
 
-		void init();
+		void init( int targetFrameRate );
 
 		void update();
 		
@@ -39,7 +39,8 @@ class ParticleSystem {
 
 		void clearParticles();
 
-		float lastFrameTime;
+		float updateInterval;
+		float lastUpdate;
   
 };
 #endif

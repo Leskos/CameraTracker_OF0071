@@ -26,7 +26,7 @@ void testApp::setup(void)
 	
 	cameraTracker.setup( camX, camY );
 
-	mouseParticles.init();
+	mouseParticles.init( 100 );
 
 	vector<string> presetFiles;
 

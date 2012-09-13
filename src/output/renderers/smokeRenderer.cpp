@@ -11,7 +11,7 @@ void smokeRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
 	tracking->CTdoOpticalFlow = true;
-	particles.init();
+	particles.init( 60 );
 }
 
 void smokeRenderer::releaseResources()

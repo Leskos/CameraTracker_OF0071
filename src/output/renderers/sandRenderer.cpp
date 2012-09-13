@@ -22,7 +22,7 @@ void sandRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
 	tracking->CTdoOpticalFlow = false;
-	particles.init();
+	particles.init( 60 );
 }
 
 void sandRenderer::releaseResources()

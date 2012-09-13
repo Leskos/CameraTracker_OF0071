@@ -14,24 +14,31 @@ ParticleSystem::ParticleSystem() {
 
 
 //--------------------------------------------------------------
-void ParticleSystem::init(){
-	lastFrameTime = ofGetElapsedTimeMillis();
+void ParticleSystem::init( int targetFrameRate ){
+	updateInterval = 1000/targetFrameRate;
+	lastUpdate     = ofGetElapsedTimeMillis();
 }
 
 
 //--------------------------------------------------------------
 void ParticleSystem::update() {
 
-	float timeDelta = (ofGetElapsedTimeMillis() - lastFrameTime)/100;
-	lastFrameTime   = ofGetElapsedTimeMillis();
+	float timeSinceUpdate = ofGetElapsedTimeMillis() - lastUpdate;
+	
+	while( timeSinceUpdate > updateInterval ){
 
-	// Cycle through the ArrayList backwards b/c we are deleting
-	for (int i = particles.size()-1; i >= 0; i--) {
-		particles[i]->update( 1 );
-		if (particles[i]->dead()) {
-			particles.erase(particles.begin() + i);
+		// Cycle through the ArrayList backwards b/c we are deleting
+		for (int i = particles.size()-1; i >= 0; i--) {
+			particles[i]->update( );
+			if (particles[i]->dead()) {
+				particles.erase(particles.begin() + i);
+			}
 		}
+		lastUpdate += updateInterval;
+		timeSinceUpdate -= updateInterval;
 	}
+
+	
 }
 //--------------------------------------------------------------
 void ParticleSystem::render() {
