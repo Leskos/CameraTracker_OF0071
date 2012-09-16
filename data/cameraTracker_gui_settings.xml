@@ -17,7 +17,7 @@
     </Toggle_Flip_Vertical>
     <Toggle_Do_Optical_Flow>
         <name>Do Optical Flow</name>
-        <value>205</value>
+        <value>173</value>
     </Toggle_Do_Optical_Flow>
     <SliderInt_OF_Cols_Step>
         <name>OF Cols Step</name>
