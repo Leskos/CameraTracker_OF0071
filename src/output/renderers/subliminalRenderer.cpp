@@ -25,8 +25,7 @@ void subliminalRenderer::setup(cameraTracking &cameraTracker)
 	subliminalImage[2].loadImage("aSveso_3.jpg");
 	subliminalImage[3].loadImage("aSveso_4.jpg");
 	subliminalImage[4].loadImage("aSveso_5.jpg");
-	subliminalImage[5].loadImage("goatse.jpg");
-	subliminalImage[6].loadImage("trees.jpg");
+	subliminalImage[5].loadImage("trees.jpg");
 }
 
 

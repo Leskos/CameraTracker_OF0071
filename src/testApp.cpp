@@ -19,6 +19,7 @@ void testApp::setup(void)
 	camX = 320;
 	camY = 240;
 
+
 	drawImages    = true;
 	drawDebugInfo = true;
 
@@ -148,12 +149,17 @@ void testApp::setup(void)
 		gui.addSlider( "Averaging area", r->ofAvgArea,          1, 40 );
 		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
 		gui.addTitle("Images");
-		gui.addSlider( "Image Number", r->currentImage, 0, 6 );
+		gui.addSlider( "Image Number", r->currentImage, 0, 5 );
 		gui.addToggle( "Fade Out", r->fadeOut );
 		gui.addToggle( "Randomised Colours", r->getColorRandomly );
 
 	}
 	
+	rendererLastChanged = ofGetElapsedTimeMillis();
+	presetLastChanged   = ofGetElapsedTimeMillis();
+	rendererTimeout = 2;
+	presetTimeout = 1;
+
 	
 	//gui.addColorPicker("Outline col");
 	//gui.addColorPicker("Motion  col");
@@ -174,17 +180,30 @@ void testApp::update()
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2);
 	mouseParticles.update();
+
+	int rendererRunningFor = (ofGetElapsedTimeMillis() - rendererLastChanged)/1000;
+	if( rendererRunningFor > rendererTimeout ){
+		int presetsToUse[4] = {1,3,4,5};
+		changeOutputRenderer( presetsToUse[(int)ofRandom(0,4)] );
+		loadRandomPreset();
+	}
+	int presetRunningFor   = (ofGetElapsedTimeMillis() - presetLastChanged)/1000;
+	if( presetRunningFor > presetTimeout ){
+		loadRandomPreset();
+	}
+
 }
 
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
+	
 
 	// Draw our report string
 	if( drawDebugInfo ){
 		char reportStr[1024];
-		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %i", ofGetFrameRate(), cameraTracker.getOutContourLength(), cameraTracker.getMotContourLength(), currOutput );
+		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %i", ofGetFrameRate(), cameraTracker.getOutContourLength(), cameraTracker.getMotContourLength(), currOutput);
 		ofSetHexColor(0xffffff);
 		ofDrawBitmapString(reportStr, 10, 20);
 	}
@@ -349,20 +368,65 @@ void testApp::changeOutputRenderer( int newOutput ){
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2 );
+
+	float prob = ofRandom(0,1);
+
 	switch( currOutput ){
+
 		case 0 : gui.setPage("Tracking_Options");
 				 break;
+		
 		case 1 : gui.setPage("Bubble_Renderer");
+				 if( prob > 0.95 ){
+					 autoBg = false;
+				 }
+				 else{
+					 autoBg = true;
+				 }
+				 presetTimeout   = 3.0;
+				 rendererTimeout = 1.80;
 				 break;
-		case 2 : gui.setPage("Tracking_Options");
+
+		case 2 : gui.setPage("Smoke_Renderer");
 				 break;
+
 		case 3 : gui.setPage("Path_Renderer");
+			     if( prob > 0.6 ){
+					 autoBg = false;
+				 }
+				 else{
+					 autoBg = true;
+				 }
+				 presetTimeout   = 1.5;
+				 rendererTimeout = 1.20;
 				 break;
+
 		case 4 : gui.setPage("Sand_Renderer");
+			     if( prob > 0.9 ){
+					 autoBg = false;
+				 }
+				 else{
+					 autoBg = true;
+				 }
+				 presetTimeout = 3.0;
+				 rendererTimeout = 1.80;
 				 break;
+
 		case 5 : gui.setPage("Subliminal_Renderer");
+			     if( prob > 0.1 ){
+					 autoBg = false;
+				 }
+				 else{
+					 autoBg = true;
+				 }
+				 presetTimeout = 2.0;
+				 rendererTimeout = 30.00;
 				 break;
 	}
+	
+    ofSetBackgroundAuto( autoBg );
+	rendererLastChanged = ofGetElapsedTimeMillis();
+	presetLastChanged   = ofGetElapsedTimeMillis();
 }
 
 
@@ -396,7 +460,6 @@ void testApp::mouseReleased(int x, int y, int button)
 void testApp::windowResized(int w, int h)
 {
 }
-
 
 //--------------------------------------------------------------
 string testApp::getTimeString(){
@@ -463,6 +526,8 @@ void testApp::loadRandomPreset(){
 			// And load the preset
 			gui.currentPage().setXMLName( randomPreset );
 			gui.currentPage().loadFromXML();
+
+			presetLastChanged = ofGetElapsedTimeMillis();
 		}
 
 				
