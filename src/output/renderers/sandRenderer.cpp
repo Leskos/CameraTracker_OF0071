@@ -1,8 +1,8 @@
 #include "sandRenderer.h"
 
-void sandRenderer::setup(cameraTracking &cameraTracker)
+void sandRenderer::setup(motionTracking &motionTracker)
 {
-	outputRenderer::setup( cameraTracker );
+	outputRenderer::setup( motionTracker );
 
 	// Default values for controllable parameters
 	sizeMin          = 10;

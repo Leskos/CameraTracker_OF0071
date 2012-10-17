@@ -34,9 +34,6 @@
     <ClCompile Include="src\tracking\ofxCvOpticalFlowLK.cpp">
       <Filter>src\tracking</Filter>
     </ClCompile>
-    <ClCompile Include="src\tracking\cameraTracking.cpp">
-      <Filter>src\tracking</Filter>
-    </ClCompile>
     <ClCompile Include="src\particles\ParticleSystem.cpp">
       <Filter>src\particles</Filter>
     </ClCompile>
@@ -123,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="src\output\renderers\subliminalRenderer.cpp">
       <Filter>src\output\renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tracking\motionTracking.cpp">
+      <Filter>src\tracking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -521,9 +521,6 @@
     <ClInclude Include="src\tracking\ofxCvOpticalFlowLK.h">
       <Filter>src\tracking</Filter>
     </ClInclude>
-    <ClInclude Include="src\tracking\cameraTracking.h">
-      <Filter>src\tracking</Filter>
-    </ClInclude>
     <ClInclude Include="src\particles\Particle.h">
       <Filter>src\particles</Filter>
     </ClInclude>
@@ -616,6 +613,9 @@
     </ClInclude>
     <ClInclude Include="src\output\renderers\subliminalRenderer.h">
       <Filter>src\output\renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tracking\motionTracking.h">
+      <Filter>src\tracking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

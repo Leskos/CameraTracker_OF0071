@@ -1,8 +1,8 @@
 #include "bubbleRenderer.h"
 
-void bubbleRenderer::setup(cameraTracking &cameraTracker)
+void bubbleRenderer::setup(motionTracking &motionTracker)
 {
-	outputRenderer::setup( cameraTracker );
+	outputRenderer::setup( motionTracker );
 
 	// Default values for controllable parameters
 	sizeMin          = 10;

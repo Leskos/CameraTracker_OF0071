@@ -1,8 +1,8 @@
 #include "subliminalRenderer.h"
 
-void subliminalRenderer::setup(cameraTracking &cameraTracker)
+void subliminalRenderer::setup(motionTracking &motionTracker)
 {
-	outputRenderer::setup( cameraTracker );
+	outputRenderer::setup( motionTracker );
 
 	// Default values for controllable parameters
 	sizeMin          = 1;

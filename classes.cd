@@ -8,7 +8,7 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="vidWarpBox" />
-      <Field Name="cameraTracker" />
+      <Field Name="motionTracker" />
       <Field Name="output" />
     </ShowAsAssociation>
   </Class>
@@ -19,11 +19,11 @@
       <FileName>src\utilities\boxWithHandles.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="cameraTracking">
+  <Class Name="motionTracking">
     <Position X="10" Y="2.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>GhAAABAGGFSIgAkQAgAIAgAwAAEBBgRYQBAAEAICBCE=</HashCode>
-      <FileName>src\tracking\cameraTracking.h</FileName>
+      <FileName>src\tracking\motionTracking.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="outlineContours" />

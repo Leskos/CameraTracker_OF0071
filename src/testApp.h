@@ -53,7 +53,7 @@ private:
 
       	boxWithHandles      vidWarpBox;
 
-		cameraTracking      cameraTracker;
+		motionTracking      motionTracker;
 
 		ParticleSystem      mouseParticles;
 

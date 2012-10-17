@@ -1,8 +1,8 @@
 #include "outputRenderer.h"
 
-void outputRenderer::setup( cameraTracking &cameraTracker )
+void outputRenderer::setup( motionTracking &motionTracker )
 {
-	tracking = &cameraTracker;
+	tracking = &motionTracker;
 	setOutputArea( 0, ofGetScreenWidth(), ofGetScreenWidth(), ofGetScreenHeight() );
 	useOpticalFlow = false;
 	tracking->CTdoOpticalFlow = useOpticalFlow;

@@ -1,8 +1,8 @@
 #include "basicRenderer.h"
 
-void basicRenderer::setup(cameraTracking &cameraTracker)
+void basicRenderer::setup(motionTracking &motionTracker)
 {
-	outputRenderer::setup( cameraTracker );
+	outputRenderer::setup( motionTracker );
 	tracking->CTdoOpticalFlow = true;
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "ofMain.h"
-#include "cameraTracking.h"
+#include "motionTracking.h"
 
 class outputRenderer
 {
@@ -9,7 +9,7 @@ class outputRenderer
 		int outputX, outputY, outputW, outputH;
 
 
-		virtual void setup( cameraTracking &cameraTracker );
+		virtual void setup( motionTracking &motionTracker );
 		virtual void render( void );
 		void setOutputArea( int x, int y, int w, int h );
 
@@ -25,7 +25,7 @@ class outputRenderer
 
 		float outputScaleX, outputScaleY;
 
-		cameraTracking *tracking;
+		motionTracking *tracking;
 
 
 

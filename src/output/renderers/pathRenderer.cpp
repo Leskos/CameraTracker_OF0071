@@ -1,8 +1,8 @@
 #include "pathRenderer.h"
 
-void pathRenderer::setup(cameraTracking &cameraTracker)
+void pathRenderer::setup(motionTracking &motionTracker)
 {
-	outputRenderer::setup( cameraTracker );
+	outputRenderer::setup( motionTracker );
 
 	maxVertices = 100;
 	smoothAmt   = 0.01;

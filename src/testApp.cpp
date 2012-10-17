@@ -25,7 +25,7 @@ void testApp::setup(void)
 
 	vidWarpBox.setup( 20, 220, camX*2, camY*2 );
 	
-	cameraTracker.setup( camX, camY );
+	motionTracker.setup( camX, camY );
 
 	mouseParticles.init( 100 );
 
@@ -33,21 +33,21 @@ void testApp::setup(void)
 
 	// Setup the GUI contents
 	gui.addTitle( "IMG PROCESSING", 30);
-	gui.addSlider("Blur Amount",     cameraTracker.CTblur,   1, 30);
-	gui.addSlider("Threshold",       cameraTracker.CTthresh, 1, 255);
-	gui.addToggle("Flip Horizontal", cameraTracker.CTflipHorizontal);
-	gui.addToggle("Flip Vertical",   cameraTracker.CTflipVertical);
+	gui.addSlider("Blur Amount",     motionTracker.CTblur,   1, 30);
+	gui.addSlider("Threshold",       motionTracker.CTthresh, 1, 255);
+	gui.addToggle("Flip Horizontal", motionTracker.CTflipHorizontal);
+	gui.addToggle("Flip Vertical",   motionTracker.CTflipVertical);
 
 	gui.addTitle( "OPTICAL FLOW", 30 );
-	gui.addToggle( "Do Optical Flow", cameraTracker.CTdoOpticalFlow );
-	gui.addSlider( "OF Cols Step", cameraTracker.OFcolsStep, 1, 15 );
-	gui.addSlider( "OF Rows Step", cameraTracker.OFrowsStep, 1, 15 );
-	gui.addSlider( "threshold",    cameraTracker.OFactivityThresh, 1, 20 );
+	gui.addToggle( "Do Optical Flow", motionTracker.CTdoOpticalFlow );
+	gui.addSlider( "OF Cols Step", motionTracker.OFcolsStep, 1, 15 );
+	gui.addSlider( "OF Rows Step", motionTracker.OFrowsStep, 1, 15 );
+	gui.addSlider( "threshold",    motionTracker.OFactivityThresh, 1, 20 );
 
 	gui.addTitle( "OUTPUT", 30);
 	gui.addToggle( "Draw Images", drawImages);
 
-	gui.currentPage().setXMLName("cameraTracker_gui_settings.xml");
+	gui.currentPage().setXMLName("motionTracker_gui_settings.xml");
 	gui.currentPage().setName("Tracking Options");
 	gui.saveToXML();
 
@@ -57,7 +57,7 @@ void testApp::setup(void)
 	// Initialise basic renderer
 	// -----------------------------------------
 	output[0] = new basicRenderer;
-	output[0]->setup( cameraTracker );
+	output[0]->setup( motionTracker );
 	output[0]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Basic_Renderer");
 	gui.setPage("Basic_Renderer");
@@ -67,7 +67,7 @@ void testApp::setup(void)
 	// Initialise bubble renderer
 	// -----------------------------------------
 	output[1] = new bubbleRenderer;
-	output[1]->setup( cameraTracker );
+	output[1]->setup( motionTracker );
 	output[1]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Bubble_Renderer");
 	gui.setPage("Bubble_Renderer");
@@ -88,7 +88,7 @@ void testApp::setup(void)
 	// Initialise smoke renderer
 	// -----------------------------------------
 	output[2] = new smokeRenderer;
-	output[2]->setup( cameraTracker );
+	output[2]->setup( motionTracker );
 	output[2]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Sand_Renderer");
 	gui.setPage("Sand_Renderer");
@@ -97,7 +97,7 @@ void testApp::setup(void)
 	// Initialise path renderer
 	// -----------------------------------------
 	output[3] = new pathRenderer;
-	output[3]->setup( cameraTracker );
+	output[3]->setup( motionTracker );
 	output[3]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Path_Renderer");
 	gui.setPage("Path_Renderer");
@@ -111,7 +111,7 @@ void testApp::setup(void)
 	// Initialise sand renderer
 	// -----------------------------------------
 	output[4] = new sandRenderer();
-	output[4]->setup( cameraTracker );
+	output[4]->setup( motionTracker );
 	output[4]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Sand_Renderer");
 	gui.setPage("Sand_Renderer");
@@ -132,7 +132,7 @@ void testApp::setup(void)
 	// Initialise subliminal renderer
 	// -----------------------------------------
 	output[5] = new subliminalRenderer();
-	output[5]->setup( cameraTracker );
+	output[5]->setup( motionTracker );
 	output[5]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 	gui.addPage("Subliminal_Renderer");
 	gui.setPage("Subliminal_Renderer");
@@ -175,7 +175,7 @@ void testApp::setup(void)
 void testApp::update()
 {
 	// Perform camera tracking
-	cameraTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
+	motionTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2);
@@ -203,7 +203,7 @@ void testApp::draw()
 	// Draw our report string
 	if( drawDebugInfo ){
 		char reportStr[1024];
-		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %i", ofGetFrameRate(), cameraTracker.getOutContourLength(), cameraTracker.getMotContourLength(), currOutput);
+		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %i", ofGetFrameRate(), motionTracker.getOutContourLength(), motionTracker.getMotContourLength(), currOutput);
 		ofSetHexColor(0xffffff);
 		ofDrawBitmapString(reportStr, 10, 20);
 	}
@@ -212,7 +212,7 @@ void testApp::draw()
 	// Draw processing stages if required
 	if( drawImages )
 	{
-		cameraTracker.drawProcessingImages();
+		motionTracker.drawProcessingImages();
 		ofSetHexColor(0xffffff);
 		vidWarpBox.draw();
 	}
@@ -245,7 +245,7 @@ void testApp::keyPressed  (int key)
 
 		// TOGGLE OPTICAL FLOW
 		case 'o':
-			cameraTracker.CTdoOpticalFlow = !cameraTracker.CTdoOpticalFlow;
+			motionTracker.CTdoOpticalFlow = !motionTracker.CTdoOpticalFlow;
 			break;
 			
 		// RESET WARPING BOX
@@ -259,7 +259,7 @@ void testApp::keyPressed  (int key)
 		
 		// LEARN BACKGROUND
 		case 'b':
-			cameraTracker.learnBackGround();
+			motionTracker.learnBackGround();
 			drawImages = false;
 			break;
 		
@@ -271,19 +271,19 @@ void testApp::keyPressed  (int key)
 
 		// INCREASE THRESHOLD
 		case '+':
-			cameraTracker.CTthresh ++;
-			if ( cameraTracker.CTthresh > 255)
+			motionTracker.CTthresh ++;
+			if ( motionTracker.CTthresh > 255)
 			{
-				cameraTracker.CTthresh = 255;
+				motionTracker.CTthresh = 255;
 			}
 			break;
 		
 		// DECREASE THRESHOLD
 		case '-':
-			cameraTracker.CTthresh --;
-			if (cameraTracker.CTthresh < 0)
+			motionTracker.CTthresh --;
+			if (motionTracker.CTthresh < 0)
 			{
-				cameraTracker.CTthresh = 0;
+				motionTracker.CTthresh = 0;
 			}
 			break;
 		
@@ -333,7 +333,7 @@ void testApp::keyPressed  (int key)
 		// DISPLAY TRACKING SETTINGS
 		case 't':
 			gui.setPage("TrackingOptions");
-			//cameraTracker.showSettings();
+			//motionTracker.showSettings();
 			break;
 
 		case ',':
@@ -364,7 +364,7 @@ void testApp::changeOutputRenderer( int newOutput ){
 
 	currOutput = newOutput;
 	output[currOutput]->initialiseResources();
-	cameraTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
+	motionTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2 );

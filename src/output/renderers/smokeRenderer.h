@@ -6,7 +6,7 @@ class smokeRenderer : public outputRenderer{
 	
 	public :
 
-		virtual void setup( cameraTracking &cameraTracker );
+		virtual void setup( motionTracking &motionTracker );
 		virtual void initialiseResources();
 		virtual void render();
 		virtual void releaseResources();

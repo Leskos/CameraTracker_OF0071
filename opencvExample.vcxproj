@@ -138,7 +138,7 @@
     <ClCompile Include="src\particles\Particle.cpp" />
     <ClCompile Include="src\particles\ParticleSystem.cpp" />
     <ClCompile Include="src\testApp.cpp" />
-    <ClCompile Include="src\tracking\cameraTracking.cpp" />
+    <ClCompile Include="src\tracking\motionTracking.cpp" />
     <ClCompile Include="src\tracking\ofxCvOpticalFlowLK.cpp" />
     <ClCompile Include="src\utilities\boxWithHandles.cpp" />
   </ItemGroup>
@@ -268,7 +268,7 @@
     <ClInclude Include="src\particles\Particle.h" />
     <ClInclude Include="src\particles\ParticleSystem.h" />
     <ClInclude Include="src\testApp.h" />
-    <ClInclude Include="src\tracking\cameraTracking.h" />
+    <ClInclude Include="src\tracking\motionTracking.h" />
     <ClInclude Include="src\tracking\ofxCvOpticalFlowLK.h" />
     <ClInclude Include="src\utilities\boxWithHandles.h" />
   </ItemGroup>

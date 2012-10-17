@@ -1,8 +1,8 @@
 #include "smokeRenderer.h"
 
-void smokeRenderer::setup(cameraTracking &cameraTracker)
+void smokeRenderer::setup(motionTracking &motionTracker)
 {
-	outputRenderer::setup( cameraTracker );
+	outputRenderer::setup( motionTracker );
 	tracking->CTdoOpticalFlow = true;
 }
 
