@@ -19,15 +19,12 @@ class ParticleSystem {
 		ofVec2f origin;				// An origin point for where particles are birthed
 		
 		ParticleSystem();
-		ParticleSystem(int num, ofVec2f v);
-		
-		void init(int num, ofVec2f v);
-		
-		void run();
+
+		void init( int targetFrameRate );
+
+		void update();
 		
 		void render();
-
-		void addParticle();
 
 		void addParticle(Particle *p);
 
@@ -41,6 +38,9 @@ class ParticleSystem {
 		bool isParticleDead(Particle _particle);
 
 		void clearParticles();
+
+		float updateInterval;
+		float lastUpdate;
   
 };
 #endif

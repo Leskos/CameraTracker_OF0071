@@ -25,8 +25,7 @@ void subliminalRenderer::setup(cameraTracking &cameraTracker)
 	subliminalImage[2].loadImage("aSveso_3.jpg");
 	subliminalImage[3].loadImage("aSveso_4.jpg");
 	subliminalImage[4].loadImage("aSveso_5.jpg");
-	subliminalImage[5].loadImage("goatse.jpg");
-	subliminalImage[6].loadImage("trees.jpg");
+	subliminalImage[5].loadImage("trees.jpg");
 }
 
 
@@ -34,6 +33,7 @@ void subliminalRenderer::initialiseResources()
 {
 	cout << "\nINITIALISING BUBBLE RENDERER RESOURCES";
 	tracking->CTdoOpticalFlow = true;
+	particles.init( 60 );
 }
 
 void subliminalRenderer::releaseResources()
@@ -104,16 +104,16 @@ void subliminalRenderer::render()
 	ofPushStyle();
 	// Fade out if necessary
 	if( fadeOut ){
-		if( ofRandom( 0, 1 ) > 0.5 ){
+		if( ofRandom( 0, 1 ) > 0.4 ){
 			//ofSetColor(  ofColor( colorFromImage.r, colorFromImage.g, colorFromImage.b, 0.2 ) );
-			ofSetColor( 1, 1, 1, 3 );
+			ofSetColor( 0, 0, 0, 5 );
 			ofFill();
 			ofRect( outputX, outputY, outputW, outputH );
 		}
 	}
 	ofPopStyle();
 
-	particles.run();
+	particles.update();
 	particles.render();
 
 }

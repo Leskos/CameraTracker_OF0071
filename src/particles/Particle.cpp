@@ -41,13 +41,13 @@ Particle::Particle( ofVec2f l ) {
 // Method to update location
 void Particle::update() { 
 
-	vel.x *= drag;
-	vel.y *= drag;
+	vel.x *=  drag;
+	vel.y *=  drag;
 	
 	vel     += acc;
 	prevLoc  = loc;
 	loc     += vel;
-	timer   -= 1.0;
+	timer   -= 1;
 }
 
 //--------------------------------------------------------------

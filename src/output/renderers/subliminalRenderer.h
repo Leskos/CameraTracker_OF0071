@@ -25,5 +25,5 @@ class subliminalRenderer : public outputRenderer{
 	private :
 		ParticleSystem particles;
 
-		ofImage subliminalImage[7];
+		ofImage subliminalImage[6];
 };

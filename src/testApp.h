@@ -73,7 +73,15 @@ private:
 
 		string getTimeString();
 
+
+		float rendererLastChanged;
+		float presetLastChanged;
+
+		int rendererTimeout;
+		int presetTimeout;
+
 		void loadRandomPreset();
+		void loadRandomRenderer();
 			
 };
 
