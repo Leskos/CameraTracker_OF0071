@@ -1,6 +1,6 @@
-#include "pathRenderer.h"
+/*#include "pathRenderer.h"
 
-void pathRenderer::setup(motionTracking &motionTracker)
+void pathRenderer::setup(motionTracking *motionTracker)
 {
 	outputRenderer::setup( motionTracker );
 
@@ -40,7 +40,7 @@ void pathRenderer::render()
 		simplePaths.at(i).draw( );
 	}
 
-	/*
+	
 	//
 	// !!!! NOT WORKING !!! - Should draw connecting lines between points
 	//
@@ -61,7 +61,7 @@ void pathRenderer::render()
 		pointsJoined += 1;
 		//}
 	}
-	*/
+	
 
 	
 	ofGetCurrentRenderer()->scale( (1/scaleX), (1/scaleY) );
@@ -122,3 +122,4 @@ void pathRenderer::updateSimplePaths(){
 		simplePolylines.push_back( contour );
 	}
 }
+*/

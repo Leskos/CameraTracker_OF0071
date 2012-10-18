@@ -1,8 +1,10 @@
+
+/*
 #include "subliminalRenderer.h"
 
-void subliminalRenderer::setup(motionTracking &motionTracker)
+void subliminalRenderer::setup(motionTracking *motionTracker)
 {
-	outputRenderer::setup( motionTracker );
+	outputRenderer::setup( &motionTracker );
 
 	// Default values for controllable parameters
 	sizeMin          = 1;
@@ -117,3 +119,4 @@ void subliminalRenderer::render()
 	particles.render();
 
 }
+*/

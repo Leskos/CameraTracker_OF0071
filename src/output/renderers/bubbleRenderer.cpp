@@ -1,6 +1,6 @@
-#include "bubbleRenderer.h"
+/*#include "bubbleRenderer.h"
 
-void bubbleRenderer::setup(motionTracking &motionTracker)
+void bubbleRenderer::setup(motionTracking *motionTracker)
 {
 	outputRenderer::setup( motionTracker );
 
@@ -77,3 +77,4 @@ void bubbleRenderer::render()
 	particles.render();
 
 }
+*/

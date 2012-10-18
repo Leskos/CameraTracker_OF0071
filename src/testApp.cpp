@@ -8,8 +8,7 @@ void testApp::setup(void)
 	ofSetWindowShape( ofGetScreenWidth()*2, ofGetScreenHeight() );
 	
 	ofBackground( 0, 0, 0 );
-	autoBg = true;
-	ofSetBackgroundAuto( autoBg );
+	ofSetBackgroundAuto( true );
 	ofEnableAlphaBlending();
 	ofEnableSmoothing();
 	
@@ -18,7 +17,6 @@ void testApp::setup(void)
 	//                (###=> FIX THIS <=###) 
 	camX = 320;
 	camY = 240;
-
 
 	drawImages    = true;
 	drawDebugInfo = true;
@@ -50,115 +48,42 @@ void testApp::setup(void)
 	gui.currentPage().setXMLName("motionTracker_gui_settings.xml");
 	gui.currentPage().setName("Tracking Options");
 	gui.saveToXML();
-
-	currOutput = 0;
-	numOutputs = 6;
-
-	// Initialise basic renderer
-	// -----------------------------------------
-	output[0] = new basicRenderer;
-	output[0]->setup( motionTracker );
-	output[0]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Basic_Renderer");
-	gui.setPage("Basic_Renderer");
-	gui.currentPage().setXMLName("basic_renderer_settings.xml");
-	gui.addTitle("Nothing Here Yet");
-
-	// Initialise bubble renderer
-	// -----------------------------------------
-	output[1] = new bubbleRenderer;
-	output[1]->setup( motionTracker );
-	output[1]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Bubble_Renderer");
-	gui.setPage("Bubble_Renderer");
-	gui.currentPage().setXMLName("./presets/bubble_renderer_settings.xml");
-	if ( bubbleRenderer * r = dynamic_cast<bubbleRenderer*>( output[1] ) ){			
-		gui.addTitle("Random Parameters");
-		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
-		gui.addSlider( "Life max", r->lifeMax, 10, 300 );
-		gui.addSlider( "Size min", r->sizeMin, 1,  100 );
-		gui.addSlider( "Size max", r->sizeMax, 2,  300 );
-		gui.addSlider( "Drag min", r->dragMin, 0.7, 0.95 );
-		gui.addSlider( "Drag max", r->dragMax, 0.8, 1.0 );
-		gui.addTitle("Optical Flow Stuff");
-		gui.addSlider( "Averaging area", r->ofAvgArea,          1, 40 );
-		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
-	}
-
-	// Initialise smoke renderer
-	// -----------------------------------------
-	output[2] = new smokeRenderer;
-	output[2]->setup( motionTracker );
-	output[2]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Sand_Renderer");
-	gui.setPage("Sand_Renderer");
-	gui.addTitle("Nothing Here Yet");
-
-	// Initialise path renderer
-	// -----------------------------------------
-	output[3] = new pathRenderer;
-	output[3]->setup( motionTracker );
-	output[3]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Path_Renderer");
-	gui.setPage("Path_Renderer");
-	gui.currentPage().setXMLName("path_renderer_gui_settings.xml");
-	gui.addTitle("Simplification Settings");
-	if ( pathRenderer * r = dynamic_cast<pathRenderer*>( output[3] ) ){	
-		gui.addSlider( "Max Vertices", r->maxVertices, 5, 100 );
-		gui.addSlider( "Smoothing",    r->smoothAmt,   0, 10  );
-	}
-
-	// Initialise sand renderer
-	// -----------------------------------------
-	output[4] = new sandRenderer();
-	output[4]->setup( motionTracker );
-	output[4]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Sand_Renderer");
-	gui.setPage("Sand_Renderer");
-	gui.currentPage().setXMLName("sand_renderer_gui_settings.xml");
-	if ( sandRenderer * r = dynamic_cast<sandRenderer*>( output[4] ) ){			
-		gui.addTitle("Random Parameters");
-		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
-		gui.addSlider( "Life max", r->lifeMax, 10, 300 );
-		gui.addSlider( "Size min", r->sizeMin, 1,  100 );
-		gui.addSlider( "Size max", r->sizeMax, 2,  300 );
-		gui.addSlider( "Drag min", r->dragMin, 0.7, 0.95 );
-		gui.addSlider( "Drag max", r->dragMax, 0.8, 1.0 );
-		gui.addTitle("Optical Flow Stuff");
-		gui.addSlider( "Averaging area", r->ofAvgArea,          1, 40 );
-		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
-	}
-
-	// Initialise subliminal renderer
-	// -----------------------------------------
-	output[5] = new subliminalRenderer();
-	output[5]->setup( motionTracker );
-	output[5]->setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
-	gui.addPage("Subliminal_Renderer");
-	gui.setPage("Subliminal_Renderer");
-	gui.currentPage().setXMLName("subliminal_renderer_settings.xml");
-	if ( subliminalRenderer * r = dynamic_cast<subliminalRenderer*>( output[5] ) ){			
-		gui.addTitle("Particles");
-		gui.addSlider( "Life min", r->lifeMin, 1,  100 );
-		gui.addSlider( "Life max", r->lifeMax, 10, 300 );
-		gui.addSlider( "Size min", r->sizeMin, 1,  100 );
-		gui.addSlider( "Size max", r->sizeMax, 2,  300 );
-		gui.addSlider( "Drag min", r->dragMin, 0.7, 0.95 );
-		gui.addSlider( "Drag max", r->dragMax, 0.8, 1.0 );
-		gui.addTitle("Optical Flow");
-		gui.addSlider( "Averaging area", r->ofAvgArea,          1, 40 );
-		gui.addSlider( "Force scale",    r->opFlowForceScale, 10, 300 );
-		gui.addTitle("Images");
-		gui.addSlider( "Image Number", r->currentImage, 0, 5 );
-		gui.addToggle( "Fade Out", r->fadeOut );
-		gui.addToggle( "Randomised Colours", r->getColorRandomly );
-
-	}
 	
+	
+	// Initialise renderer
+	// -----------------------------------------
+	output.setup( motionTracker );
+	output.setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+
+	gui.addPage("Default_Renderer");
+	gui.setPage("Default_Renderer");
+	gui.currentPage().setXMLName("default_renderer_settings.xml");
+
+	gui.addTitle(  "Rendering");
+	gui.addToggle( "Fade To Black", output.fadeToBlack  );
+	gui.addToggle( "Redraw Screen", output.redrawScreen );
+
+	gui.addTitle ( "Particles");
+	gui.addSlider( "Life min", output.pLifeMin,   1, 100  );
+	gui.addSlider( "Life max", output.pLifeMax,  10, 300  );
+	gui.addSlider( "Size min", output.pSizeMin,   1, 100  );
+	gui.addSlider( "Size max", output.pSizeMax,   2, 300  );
+	gui.addSlider( "Drag min", output.pDragMin, 0.7, 0.95 );
+	gui.addSlider( "Drag max", output.pDragMax, 0.8, 1.0  );
+
+	gui.addTitle ( "Optical Flow");
+	gui.addSlider( "Averaging area", output.opFlowAvgArea,    1, 15  );
+	gui.addSlider( "Force scale",    output.opFlowForceScale, 0, 100 );
+
+	gui.addTitle ( "Images" );
+	gui.addSlider( "Image Number",       output.currentImg, 0, 5      );
+	gui.addToggle( "Randomised Colours", output.colourFromImgRandomly );
+
+
 	rendererLastChanged = ofGetElapsedTimeMillis();
 	presetLastChanged   = ofGetElapsedTimeMillis();
-	rendererTimeout = 2;
-	presetTimeout = 1;
+	rendererTimeout = 5;
+	presetTimeout = 2;
 
 	
 	//gui.addColorPicker("Outline col");
@@ -166,6 +91,8 @@ void testApp::setup(void)
 	gui.setPage("Tracking Options");
 	gui.setDefaultKeys(false);
 	gui.setAutoSave(false);
+
+	update();
 }
 
 
@@ -175,12 +102,18 @@ void testApp::setup(void)
 void testApp::update()
 {
 	// Perform camera tracking
+	
+	output.update();
+
 	motionTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2);
 	mouseParticles.update();
 
+
+	// TODO
+	/*
 	int rendererRunningFor = (ofGetElapsedTimeMillis() - rendererLastChanged)/1000;
 	if( rendererRunningFor > rendererTimeout ){
 		int presetsToUse[4] = {1,3,4,5};
@@ -191,6 +124,7 @@ void testApp::update()
 	if( presetRunningFor > presetTimeout ){
 		loadRandomPreset();
 	}
+	*/
 
 }
 
@@ -199,11 +133,10 @@ void testApp::update()
 void testApp::draw()
 {
 	
-
 	// Draw our report string
 	if( drawDebugInfo ){
 		char reportStr[1024];
-		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %i", ofGetFrameRate(), motionTracker.getOutContourLength(), motionTracker.getMotContourLength(), currOutput);
+		sprintf( reportStr, "FPS: %f \nOutline points : %i\nMotion Points : %i\nCurrent Output : %s", ofGetFrameRate(), motionTracker.getOutContourLength(), motionTracker.getMotContourLength(), output.fileName);
 		ofSetHexColor(0xffffff);
 		ofDrawBitmapString(reportStr, 10, 20);
 	}
@@ -217,7 +150,7 @@ void testApp::draw()
 		vidWarpBox.draw();
 	}
 
-	output[currOutput]->render();
+	output.draw();
 	mouseParticles.render();
 	gui.draw();
 }
@@ -265,8 +198,7 @@ void testApp::keyPressed  (int key)
 		
 		// TOGGLE AUTO CLEAR BACKGROUND
 		case 'a':
-			autoBg = !autoBg;
-			ofSetBackgroundAuto( autoBg );
+			output.redrawScreen = !output.redrawScreen;
 			break;
 
 		// INCREASE THRESHOLD
@@ -289,23 +221,17 @@ void testApp::keyPressed  (int key)
 		
 		// OUTPUT TO FIRST SCREEN FULLSCREEN
 		case '1':
-			for( int i=0; i < numOutputs; i++ ){				
-				output[ i ]->setOutputArea( 0, 0, ofGetScreenWidth(), ofGetScreenHeight() );
-			}
+			output.setOutputArea( 0, 0, ofGetScreenWidth(), ofGetScreenHeight() );
 			break;
 
 		// OUTPUT TO SECOND SCREEN FULLSCREEN
 		case '2':
-			for( int i=0; i < numOutputs; i++ ){				
-				output[ i ]->setOutputArea( ofGetScreenWidth(), 0, ofGetScreenWidth(), ofGetScreenHeight() );
-			}
+			output.setOutputArea( ofGetScreenWidth(), 0, ofGetScreenWidth(), ofGetScreenHeight() );
 			break;
 
 		// OUTPUT TO FIRST SCREEN SMALL
 		case '3':
-			for( int i=0; i < numOutputs; i++ ){				
-				output[ i ]->setOutputArea( 20+camX*2, 220, camX*2, camY*2 );
-			}
+			output.setOutputArea( 20+camX*2, 220, camX*2, camY*2 );
 			break;
 	
 		// LOAD RANDOM PRESET FROM XML
@@ -337,20 +263,15 @@ void testApp::keyPressed  (int key)
 			break;
 
 		case ',':
-			if( currOutput == 0 ){
-				changeOutputRenderer( numOutputs-1 );
-			}
-			else{
-				changeOutputRenderer( (currOutput-1) % numOutputs );
-			}
-			break;
+			// PRESET MANAGER
 
 		case '.':
-			changeOutputRenderer( (currOutput+1) % numOutputs );
+			// PRESET MANAGER
 			break;
 
 		case 'd':
 			drawDebugInfo = !drawDebugInfo;
+			output.showDebugInfo = drawDebugInfo;
 			break;
 			
 
@@ -358,9 +279,16 @@ void testApp::keyPressed  (int key)
 }
 
 
-void testApp::changeOutputRenderer( int newOutput ){
+void testApp::changeOutputRenderer( string fileName ){
 
-	output[currOutput]->releaseResources();
+	// Preset manager's jonb
+	
+	rendererLastChanged = ofGetElapsedTimeMillis();
+	presetLastChanged   = ofGetElapsedTimeMillis();
+
+
+	/*
+	output.releaseResources();
 
 	currOutput = newOutput;
 	output[currOutput]->initialiseResources();
@@ -427,6 +355,7 @@ void testApp::changeOutputRenderer( int newOutput ){
     ofSetBackgroundAuto( autoBg );
 	rendererLastChanged = ofGetElapsedTimeMillis();
 	presetLastChanged   = ofGetElapsedTimeMillis();
+	*/
 }
 
 

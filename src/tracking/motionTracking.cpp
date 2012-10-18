@@ -23,6 +23,7 @@ void getQuadSubImage(   unsigned char * inputData, unsigned char * outputData,
     }
 }
 
+
 void motionTracking::setup( int camX, int camY )
 {
 		imgX = camX;
@@ -67,7 +68,6 @@ void motionTracking::setup( int camX, int camY )
 		colorOpFlow      = ofColor(   0,   0, 255 );
 		colorBg          = ofColor( 100, 100, 100 );
 }
-
 
 
 void motionTracking::drawProcessingImages()
@@ -172,7 +172,7 @@ void motionTracking::doTracking( int x1, int y1,
 		if( CTdoOpticalFlow )
 		{
 			opticalFlow.setCalcStep( OFrowsStep, OFcolsStep );
-			opticalFlow.calc( grayImagePrev, grayImage, 5 );
+			opticalFlow.calc( grayImagePrev, grayImage, 1 );
 		}
 		grayImagePrev = grayImage;
 
@@ -212,12 +212,11 @@ int motionTracking::getMotContourLength()
 }
 
 
-
-
 void motionTracking::learnBackGround()
 {
 	learnBg = true;
 }
+
 
 void motionTracking::showSettings(){
 	vidGrabber.videoSettings();
@@ -235,19 +234,23 @@ void motionTracking::setColorMotContour( ofColor newColor )
 	colorMotContours = newColor;
 }
 
+
 void motionTracking::setColorOpFlow( ofColor newColor )
 {
 	colorOpFlow = newColor;
 }
+
 
 void motionTracking::setColorBg( ofColor newColor )
 {
 	colorBg = newColor;
 }
 
+
 int motionTracking::getImgX(){
 	return imgX;
 }
+
 
 int motionTracking::getImgY(){
 	return imgY;

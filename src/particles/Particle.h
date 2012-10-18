@@ -3,9 +3,7 @@
 // Daniel Shiffman <http://www.shiffman.net>
 
 // A simple Particle class
-
-#ifndef _PARTICLE
-#define _PARTICLE
+#pragma once
 
 #include "ofMain.h"
 #include "ofVectorMath.h"
@@ -25,16 +23,18 @@ class Particle {
 		float radius;
 		float timer;
 
-		ofColor color;
+		ofColor colour;
 
 		float drag;
 
 
 		// One constructor
-		Particle(ofVec2f a, ofVec2f v, ofVec2f l, float r_);
+		Particle(ofVec2f a, ofVec2f v, ofVec2f l, float _radius, ofColor color );
 
 		// Another constructor 
 		Particle(ofVec2f l);
+
+		Particle();
 
 		// Method to update location
 		void update();
@@ -51,6 +51,5 @@ class Particle {
 
 		void setLifetime(float _timer);
 };
-#endif
 
 

@@ -1,6 +1,6 @@
-#include "sandRenderer.h"
+/*#include "sandRenderer.h"
 
-void sandRenderer::setup(motionTracking &motionTracker)
+void sandRenderer::setup(motionTracking *motionTracker)
 {
 	outputRenderer::setup( motionTracker );
 
@@ -80,3 +80,4 @@ void sandRenderer::render()
 	particles.render();
 
 }
+*/

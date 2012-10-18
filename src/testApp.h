@@ -57,22 +57,16 @@ private:
 
 		ParticleSystem      mouseParticles;
 
-		int numOutputs;
-		int currOutput;
-		outputRenderer *output[6];
+		outputRenderer output;
 
 		ofDirectory dir;
-		vector<ofImage> imageFiles;
 
 		bool                drawImages;
 		bool                drawDebugInfo;
 
-		bool                autoBg;
-
-		void changeOutputRenderer( int newOutput );
+		void changeOutputRenderer( string fileName );
 
 		string getTimeString();
-
 
 		float rendererLastChanged;
 		float presetLastChanged;

@@ -1,8 +1,9 @@
+/*
 #include "smokeRenderer.h"
 
-void smokeRenderer::setup(motionTracking &motionTracker)
+void smokeRenderer::setup(motionTracking *motionTracker)
 {
-	outputRenderer::setup( motionTracker );
+	outputRenderer::setup( &motionTracker );
 	tracking->CTdoOpticalFlow = true;
 }
 
@@ -82,10 +83,10 @@ void smokeRenderer::render()
 											ofRandom( 5, 50 )
 											);
 					
-				/*
+				
 				Particle *p = new Particle( ofxVec2f( outputX + (point.x * outputScaleX), 
 													  outputY + (point.y * outputScaleY) ) );
-			    */
+			    
 				p->setLifetime( ofRandom( 20, 90 ) );
 
 				particles.addParticle(p);
@@ -98,3 +99,4 @@ void smokeRenderer::render()
 	//tracking->drawContours( outputX, outputY, outputW, outputH );
 
 }
+*/

@@ -8,7 +8,7 @@
 
 //--------------------------------------------------------------
 // One constructor
-Particle::Particle(ofVec2f a, ofVec2f v, ofVec2f l, float _radius) {
+Particle::Particle(ofVec2f a, ofVec2f v, ofVec2f l, float _radius, ofColor _colour) {
 
 	acc = a;
 	vel = v;;
@@ -20,12 +20,11 @@ Particle::Particle(ofVec2f a, ofVec2f v, ofVec2f l, float _radius) {
 
 	timer =  ofRandom( 20, 50 );
 
-	color = ofColor( ofRandom( 0, 255 ), ofRandom( 0, 255 ), ofRandom( 0, 255 ) );
-
+	colour = _colour;
 }
 
 //--------------------------------------------------------------
-// Another constructor (the one we are using here)
+// Create particle from only location
 Particle::Particle( ofVec2f l ) {
 
 	acc.set( ofRandom(-0.03,0.03), ofRandom(0,-0.1) );
@@ -34,7 +33,13 @@ Particle::Particle( ofVec2f l ) {
 	prevLoc = loc;
 	radius  = ofRandom( 5, 25 );
 	timer   = 100.0;
-	color   = ofColor( ofRandom( 0, 255 ), ofRandom( 0, 255 ), ofRandom( 0, 255 ) );
+	colour  = ofColor::fromHsb(100, 200, 150);
+
+}
+
+// Empty constructor
+Particle::Particle(){
+	Particle( ofVec2f( 10, 10) );
 }
 
 //--------------------------------------------------------------
@@ -54,7 +59,7 @@ void Particle::update() {
 // Method to display
 void Particle::render() {
 	ofEnableAlphaBlending();
-	ofSetColor( color ,timer);
+	ofSetColor( colour ,timer);
 	ofFill();
 	//ofSetLineWidth( 3 );
 	//ofLine( loc.x, loc.y, prevLoc.x, prevLoc.y );
@@ -73,7 +78,7 @@ bool Particle::dead() {
 }
 
 void Particle::setColor( ofColor _color ){
-	color = _color;
+	colour = _color;
 }
 
 void Particle::setDrag(float _drag){
