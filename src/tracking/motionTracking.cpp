@@ -172,7 +172,7 @@ void motionTracking::doTracking( int x1, int y1,
 		if( CTdoOpticalFlow )
 		{
 			opticalFlow.setCalcStep( OFrowsStep, OFcolsStep );
-			opticalFlow.calc( grayImagePrev, grayImage, 1 );
+			opticalFlow.calc( grayImagePrev, grayImage, 5 );
 		}
 		grayImagePrev = grayImage;
 

@@ -47,7 +47,7 @@ void testApp::setup(void)
 
 	gui.currentPage().setXMLName("motionTracker_gui_settings.xml");
 	gui.currentPage().setName("Tracking Options");
-	gui.saveToXML();
+	gui.loadFromXML();
 	
 	
 	// Initialise renderer
@@ -64,20 +64,33 @@ void testApp::setup(void)
 	gui.addToggle( "Redraw Screen", output.redrawScreen );
 
 	gui.addTitle ( "Particles");
+	gui.addToggle( "Draw Particles", output.useParticles  );
 	gui.addSlider( "Life min", output.pLifeMin,   1, 100  );
 	gui.addSlider( "Life max", output.pLifeMax,  10, 300  );
 	gui.addSlider( "Size min", output.pSizeMin,   1, 100  );
 	gui.addSlider( "Size max", output.pSizeMax,   2, 300  );
 	gui.addSlider( "Drag min", output.pDragMin, 0.7, 0.95 );
 	gui.addSlider( "Drag max", output.pDragMax, 0.8, 1.0  );
+	gui.addSlider( "Colour range",    output.pRandColRange, 1, 50 );
+	gui.addSlider( "Colour interval", output.pRandColInterval, 1, 50 );
 
 	gui.addTitle ( "Optical Flow");
 	gui.addSlider( "Averaging area", output.opFlowAvgArea,    1, 15  );
 	gui.addSlider( "Force scale",    output.opFlowForceScale, 0, 100 );
 
-	gui.addTitle ( "Images" );
-	gui.addSlider( "Image Number",       output.currentImg, 0, 5      );
-	gui.addToggle( "Randomised Colours", output.colourFromImgRandomly );
+	gui.addTitle ( "Outlines");
+	gui.addToggle( "Draw Outlines", output.usePaths );
+	gui.addSlider( "Max Path Vertices", output.pathMaxVertices,  5, 150  );
+	gui.addSlider( "Path Smoothing",    output.pathSmoothAmount, 0, 10  );
+
+	gui.addTitle( "Colour" );
+	gui.addSlider( "Saturation",  output.pSat, 30, 255 );
+	gui.addSlider( "Brightness",  output.pBri, 30, 255 );
+	gui.addSlider( "Cycle Speed", output.pHueCycleSpeed, 1, 100 );
+
+	//gui.addTitle ( "Images" );
+	//gui.addSlider( "Image Number",       output.currentImg, 0, 5      );
+	//gui.addToggle( "Randomised Colours", output.colourFromImgRandomly );
 
 
 	rendererLastChanged = ofGetElapsedTimeMillis();
@@ -192,7 +205,9 @@ void testApp::keyPressed  (int key)
 		
 		// LEARN BACKGROUND
 		case 'b':
+			gui.setPage( "Tracking Options" );
 			motionTracker.learnBackGround();
+			gui.saveToXML();
 			drawImages = false;
 			break;
 		

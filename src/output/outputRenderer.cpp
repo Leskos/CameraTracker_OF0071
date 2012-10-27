@@ -7,6 +7,7 @@ outputRenderer::outputRenderer(){
 	fadeToBlack  = true;
 	redrawScreen = true;
 	
+	useParticles = true;
 	pSizeMin = 3;
 	pSizeMax = 30;
 	pLifeMin = 30;
@@ -15,6 +16,9 @@ outputRenderer::outputRenderer(){
 	pDragMax = 0.96;
 	particles.init(20);
 
+	pRandColRange = 25;
+	pRandColInterval = 5;
+
 	maxParticlesPerFrame = 40;
 	
 	pHue = 0;
@@ -22,14 +26,13 @@ outputRenderer::outputRenderer(){
 	pBri = 200;
 	pHueCycleSpeed = 40;
 
-	opFlowForceScale  = 5;
+	opFlowForceScale  = 20;
 	opFlowAvgArea     = 5;
 	useOpticalFlow    = true;
 
-	drawPaths         = true;
-	pathMaxVertices   = 50;
+	usePaths          = true;
+	pathMaxVertices   = 110;
 	pathSmoothAmount  = 0;
-	pathFillColour    = ofColor(   0, 255, 0 );
 
 	colourFromImg         = true; 
 	colourFromImgRandomly = true;
@@ -78,12 +81,13 @@ void outputRenderer::update(){
 
 	particleColour.setHsb( fmodf(ofGetElapsedTimef()*pHueCycleSpeed,255), pSat, pBri );
 
-	
+		
 	if( tracking->motionContours.blobs.size() > 0 ){
 			if( tracking->motionContours.blobs[0].pts.size() > 0 ){
 				seedNewParticles();
 			}
 	}
+
 }
 
 
@@ -98,8 +102,16 @@ void outputRenderer::draw()
 		tracking->drawContours( outputX, outputY, outputW, outputH );
 	}
 	else{
-		particles.update();
-		particles.render();
+
+		if( useParticles ){
+			particles.update();
+			particles.render();
+		}
+
+		if( usePaths ){
+			updatePaths();
+			drawPaths();
+		}
 	}
 	
 }
@@ -137,11 +149,12 @@ void outputRenderer::seedNewParticles(){
 									particleColour
 
 									);
-		p->setColor( ofColor::fromHsb( fmodf(particleColour.getHue()+ofRandom(0,6)*5,255), pSat, pBri ) );
+		p->setColor( ofColor::fromHsb( fmodf(particleColour.getHue()+ofRandom(0,pRandColRange)*pRandColInterval,255), pSat, pBri ) );
 		p->setLifetime( ofRandom( pLifeMin, pLifeMax ) );
 		p->setDrag( ofRandom( pDragMin, pDragMax ) );
 
 		particles.addParticle(p);
+	}
 }
 
 
@@ -163,4 +176,80 @@ void outputRenderer::setOutputArea(int x, int y, int w, int h)
 //--------------------------------------------------------------------------
 void outputRenderer::setFileName( string newFileName ){
 	fileName = newFileName;
+}
+
+
+
+//--------------------------------------------------------------------------
+void outputRenderer::updatePaths(){
+
+	simplePolylines.clear();
+	simplePolylines.reserve( tracking->outlineContours.blobs.size() );
+
+	simplePaths.clear();
+	simplePaths.reserve(    tracking->outlineContours.blobs.size() );
+		
+	ofPolyline contour;
+	ofPath     path;
+
+	// Loop through all of the tracked blobs
+	for ( int i = 0; i < tracking->outlineContours.blobs.size(); i++ ){
+
+		// Create an ofPolyline from the blobs points
+		contour = tracking->outlineContours.blobs[i].pts;
+		contour.setClosed( true );
+
+		float simplifyAmt = 1;
+		contour.simplify( simplifyAmt );
+
+		// Simplify the ofPolyline until it is composed of few enough vertices
+		while( contour.size() > pathMaxVertices ){
+			simplifyAmt += 0.5;				
+			contour.simplify( simplifyAmt );
+		}
+		if( pathSmoothAmount > 0.1 ){
+				contour = contour.getSmoothed( pathSmoothAmount );
+		}
+
+
+		// create an ofPath from the ofPolyline's vertices
+		path = ofPath();
+
+			vector<ofPoint> vertices = contour.getVertices();
+
+			for( int i=0; i<vertices.size(); i++ ){
+				path.lineTo( vertices.at(i).x, vertices.at(i).y );
+			}
+		
+			path.setFillColor( ofColor( 200, 150, 100, 100 ) );
+			path.setStrokeColor( ofColor( 255, 255, 255, 150 ) );
+			path.setStrokeWidth( 5 );
+			path.setFilled( true );
+
+		path.close();
+
+
+		simplePaths.push_back( path );
+		simplePolylines.push_back( contour );
+	}
+}
+
+
+//--------------------------------------------------------------------------
+void outputRenderer::drawPaths(){
+
+	ofGetCurrentRenderer()->translate( outputX, outputY );
+	ofGetCurrentRenderer()->scale( outputScaleX, outputScaleY );
+	
+	ofColor pathFillColour = particleColour;
+	pathFillColour.setBrightness( pathFillColour.getBrightness()-30 );
+
+	for( int i = 0; i < simplePaths.size(); i++ ){
+		simplePaths.at(i).setFillColor( pathFillColour );
+		simplePaths.at(i).setStrokeWidth(2);
+		simplePaths.at(i).draw( );
+	}
+			
+	ofGetCurrentRenderer()->scale( (1/outputScaleX), (1/outputScaleY) );
+	ofGetCurrentRenderer()->translate( -outputX, -outputY );
 }

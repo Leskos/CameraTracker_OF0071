@@ -33,6 +33,8 @@ class outputRenderer
 
 
 	// Particle generation parameters
+		bool useParticles;
+
 		float pSizeMin, pSizeMax;
 		float pLifeMin, pLifeMax;
 		float pDragMin, pDragMax;
@@ -44,6 +46,10 @@ class outputRenderer
 		float pSat;
 		float pBri;
 		float pHueCycleSpeed;
+
+		int pRandColRange;
+		int pRandColInterval;
+
 		
 	// Optical flow parameters	
 	// ### TODO #####
@@ -52,12 +58,9 @@ class outputRenderer
 		float opFlowAvgArea;     
 		
 	// For rendering paths
-		bool    drawPaths;
+		bool    usePaths;
 		int     pathMaxVertices;
 		float   pathSmoothAmount;
-	
-		ofColor pathFillColour;
-		float   pathHueCycleSpeed;
 	
 	// For images
 		bool colourFromImg;
@@ -78,7 +81,8 @@ class outputRenderer
    		ParticleSystem particles;
 		void seedNewParticles();
 		
-		void updateSimplePaths();
+		void updatePaths();
+		void drawPaths();
 		vector<ofPolyline>  simplePolylines;
 		vector<ofPath>      simplePaths;
 };
