@@ -5,6 +5,7 @@
 #include "ofxSimpleGuiToo.h"
 #include "ofVectorMath.h"
 #include "ofxOpenCv.h"
+#include "ofxOsc.h"
 
 #include "ParticleSystem.h"
 #include "boxWithHandles.h"

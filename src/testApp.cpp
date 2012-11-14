@@ -47,6 +47,7 @@ void testApp::setup(void)
 
 	gui.currentPage().setXMLName("motionTracker_gui_settings.xml");
 	gui.currentPage().setName("Tracking Options");
+	gui.currentPage().get
 	gui.loadFromXML();
 	
 	
@@ -178,10 +179,10 @@ void testApp::keyPressed  (int key)
 		case ' ':
 			gui.toggleDraw();
 			break;
-		
-		// TOGGLE FULLSCREEN
-		case 'f':
-			ofToggleFullscreen();
+
+		// TOGGLE AUTO CLEAR BACKGROUND
+		case 'a':
+			output.redrawScreen = !output.redrawScreen;
 			break;
 		
 		// TOGGLE DEBUG IMAGES
@@ -193,7 +194,22 @@ void testApp::keyPressed  (int key)
 		case 'o':
 			motionTracker.CTdoOpticalFlow = !motionTracker.CTdoOpticalFlow;
 			break;
-			
+		
+
+		// TOGGLE DEBUG INFO
+		case 'd':
+			drawDebugInfo = !drawDebugInfo;
+			output.showDebugInfo = drawDebugInfo;
+			break;
+
+		// LEARN BACKGROUND
+		case 'b':
+			gui.setPage( "Tracking Options" );
+			motionTracker.learnBackGround();
+			gui.saveToXML();
+			drawImages = false;
+			break;
+		
 		// RESET WARPING BOX
 		case 'r':
 			for( int i=0; i<4; i++)
@@ -203,18 +219,7 @@ void testApp::keyPressed  (int key)
 			}
 			break;
 		
-		// LEARN BACKGROUND
-		case 'b':
-			gui.setPage( "Tracking Options" );
-			motionTracker.learnBackGround();
-			gui.saveToXML();
-			drawImages = false;
-			break;
 		
-		// TOGGLE AUTO CLEAR BACKGROUND
-		case 'a':
-			output.redrawScreen = !output.redrawScreen;
-			break;
 
 		// INCREASE THRESHOLD
 		case '+':
@@ -284,10 +289,13 @@ void testApp::keyPressed  (int key)
 			// PRESET MANAGER
 			break;
 
-		case 'd':
-			drawDebugInfo = !drawDebugInfo;
-			output.showDebugInfo = drawDebugInfo;
+		
+
+		// TOGGLE FULLSCREEN
+		case 'f':
+			ofToggleFullscreen();
 			break;
+		
 			
 
 	}

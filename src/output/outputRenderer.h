@@ -73,9 +73,7 @@ class outputRenderer
 		motionTracking *tracking;
 
 		float outputScaleX, outputScaleY;
-
-		void initialiseDefaultValues();
-
+		
 		bool useOpticalFlow;
 
    		ParticleSystem particles;
