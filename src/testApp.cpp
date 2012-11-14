@@ -25,6 +25,8 @@ void testApp::setup(void)
 	
 	motionTracker.setup( camX, camY );
 
+	OSCinput.setup( OSCPORT );
+
 	mouseParticles.init( 100 );
 
 	vector<string> presetFiles;
@@ -47,7 +49,6 @@ void testApp::setup(void)
 
 	gui.currentPage().setXMLName("motionTracker_gui_settings.xml");
 	gui.currentPage().setName("Tracking Options");
-	gui.currentPage().get
 	gui.loadFromXML();
 	
 	
@@ -125,6 +126,7 @@ void testApp::update()
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2);
 	mouseParticles.update();
 
+	processOSCinput();
 
 	// TODO
 	/*
@@ -412,6 +414,33 @@ void testApp::mouseReleased(int x, int y, int button)
 void testApp::windowResized(int w, int h)
 {
 }
+
+
+//--------------------------------------------------------------
+void testApp::processOSCinput(){
+
+	// check for waiting messages
+	while(OSCinput.hasWaitingMessages()){
+
+		// get the next message
+		ofxOscMessage m;
+		OSCinput.getNextMessage(&m);
+		float input = 0.0;
+
+		// check for fader1
+		if(m.getAddress() == "/1/fader1"){
+			input = m.getArgAsFloat(0);
+			motionTracker.CTblur = ofMap( input, 0, 1, 1, 30 );
+		}
+
+		// check for toggle1
+		if(m.getAddress() == "/1/toggle1"){
+			input = m.getArgAsInt32(0);
+			output.usePaths = input;
+		}
+	}
+}
+
 
 //--------------------------------------------------------------
 string testApp::getTimeString(){

@@ -7,6 +7,8 @@
 #include "ofxOpenCv.h"
 #include "ofxOsc.h"
 
+#define OSCPORT 12345
+
 #include "ParticleSystem.h"
 #include "boxWithHandles.h"
 
@@ -35,7 +37,8 @@ class testApp : public ofBaseApp
 
 private:
 		
-		//  SIZE OF VARIOUS INPUTS & OUTPUTS
+	//  SIZE OF VARIOUS INPUTS & OUTPUTS
+
 		int camX;
 		int camY;
 	
@@ -50,6 +53,8 @@ private:
 		int outputW;
 		int outputH;
 
+	// PROGRAM COMPONENTS
+
 		ofxSimpleGuiToo     gui;
 
       	boxWithHandles      vidWarpBox;
@@ -60,14 +65,17 @@ private:
 
 		outputRenderer output;
 
+		ofxOscReceiver OSCinput;
+
+		void processOSCinput();
+
 		ofDirectory dir;
 
 		bool                drawImages;
 		bool                drawDebugInfo;
 
-		void changeOutputRenderer( string fileName );
 
-		string getTimeString();
+	// COULD BE SEPERATED INTO OUTPUTMANAGER
 
 		float rendererLastChanged;
 		float presetLastChanged;
@@ -77,7 +85,10 @@ private:
 
 		void loadRandomPreset();
 		void loadRandomRenderer();
-			
+		
+		void changeOutputRenderer( string fileName );
+		
+		string getTimeString();
 };
 
 #endif
