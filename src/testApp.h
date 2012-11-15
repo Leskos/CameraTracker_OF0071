@@ -7,8 +7,6 @@
 #include "ofxOpenCv.h"
 #include "ofxOsc.h"
 
-#define OSCPORT 12345
-
 #include "ParticleSystem.h"
 #include "boxWithHandles.h"
 
@@ -66,8 +64,10 @@ private:
 		outputRenderer output;
 
 		ofxOscReceiver OSCinput;
+		ofxOscSender   OSCoutput;
 
 		void processOSCinput();
+		void processOSCoutput();
 
 		ofDirectory dir;
 

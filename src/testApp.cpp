@@ -25,7 +25,9 @@ void testApp::setup(void)
 	
 	motionTracker.setup( camX, camY );
 
-	OSCinput.setup( OSCPORT );
+	OSCinput.setup( 12345 );
+
+	OSCoutput.setup( "192.168.0.4", 9000 );
 
 	mouseParticles.init( 100 );
 
@@ -107,6 +109,8 @@ void testApp::setup(void)
 	gui.setDefaultKeys(false);
 	gui.setAutoSave(false);
 
+	processOSCoutput();
+
 	update();
 }
 
@@ -118,13 +122,14 @@ void testApp::update()
 {
 	// Perform camera tracking
 	
-	output.update();
 
 	motionTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
 						      vidWarpBox.dstPoints[1].x/2, vidWarpBox.dstPoints[1].y/2,
 						      vidWarpBox.dstPoints[0].x/2, vidWarpBox.dstPoints[0].y/2);
 	mouseParticles.update();
+
+	output.update();
 
 	processOSCinput();
 
@@ -407,6 +412,7 @@ void testApp::mousePressed(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button)
 {
+	processOSCoutput();
 	vidWarpBox.mouseReleased( );
 }
 
@@ -425,20 +431,279 @@ void testApp::processOSCinput(){
 		// get the next message
 		ofxOscMessage m;
 		OSCinput.getNextMessage(&m);
-		float input = 0.0;
 
-		// check for fader1
-		if(m.getAddress() == "/1/fader1"){
+		string address = m.getAddress();
+		float input = 0.0;
+		
+		// Particle Saturation
+		if( address == "/1/fader1"){
 			input = m.getArgAsFloat(0);
-			motionTracker.CTblur = ofMap( input, 0, 1, 1, 30 );
+			output.pSat = ofMap( input, 0, 1, 30, 255 );
 		}
 
-		// check for toggle1
-		if(m.getAddress() == "/1/toggle1"){
+		// Particle Brightness
+		if( address == "/1/fader2"){
+			input = m.getArgAsFloat(0);
+			output.pBri = ofMap( input, 0, 1, 30, 255 );
+		}
+
+		// Particle Hue Cycle Speed
+		if( address == "/1/fader3"){
+			input = m.getArgAsFloat(0);
+			output.pHueCycleSpeed = ofMap( input, 0, 1, 0, 100 );
+		}
+
+		// Blur & Threshold
+		if( address == "/1/xy"){
+			input = m.getArgAsFloat(0);
+			motionTracker.CTblur = ofMap( input, 0, 1, 1, 30 );
+			input = m.getArgAsFloat(1);
+			motionTracker.CTthresh = ofMap( input, 0, 1, 1, 100 );
+		}
+
+		// Flip Horizontal
+		if( address == "/1/toggle1"){
+			input = m.getArgAsInt32(0);
+			motionTracker.CTflipHorizontal = input;
+		}
+
+		// Flip Vertical
+		if( address == "/1/toggle2"){
+			input = m.getArgAsInt32(0);
+			motionTracker.CTflipVertical = input;
+		}
+
+		// Show Images
+		if( address == "/1/toggle3"){
+			input = m.getArgAsInt32(0);
+			drawImages = input;
+		}
+
+		// Use Particles
+		if( address == "/2/toggle1"){
+			input = m.getArgAsInt32(0);
+			output.useParticles = input;
+		}
+
+		// Fade To Black
+		if( address == "/2/toggle2"){
+			input = m.getArgAsInt32(0);
+			output.fadeToBlack = input;
+		}
+
+		// Fade To Black
+		if( address == "/2/toggle3"){
+			input = m.getArgAsInt32(0);
+			output.redrawScreen = input;
+		}
+
+		// Particle Life Min
+		if( address == "/2/fader1"){
+			input = m.getArgAsFloat(0);
+			output.pLifeMin = ofMap( input, 0, 1, 1, 100 );
+		}
+
+		// Particle Life Max
+		if( address == "/2/fader2"){
+			input = m.getArgAsFloat(0);
+			output.pLifeMax = ofMap( input, 0, 1, 1, 100 );
+		}
+
+		// Particle Size Min
+		if( address == "/2/fader3"){
+			input = m.getArgAsFloat(0);
+			output.pSizeMin = ofMap( input, 0, 1, 1, 100 );
+		}
+
+		// Particle Size Max
+		if( address == "/2/fader4"){
+			input = m.getArgAsFloat(0);
+			output.pSizeMax = ofMap( input, 0, 1, 1, 100 );
+		}
+
+		// Particle Drag Min
+		if( address == "/2/fader5"){
+			input = m.getArgAsFloat(0);
+			output.pDragMin = input;
+		}
+
+		// Particle Drag Max
+		if( address == "/2/fader6"){
+			input = m.getArgAsFloat(0);
+			output.pDragMax = input;
+		}
+
+		// Particle Colour Range
+		if( address == "/2/fader7"){
+			input = m.getArgAsFloat(0);
+			output.pRandColRange = ofMap( input, 0, 1, 1, 50 );
+		}
+
+		// Particle Colour Interval
+		if( address == "/2/fader8"){
+			input = m.getArgAsFloat(0);
+			output.pRandColRange = ofMap( input, 0, 1, 1, 50 );
+		}
+
+		// Path Max Vertices
+		if( address == "/3/fader1"){
+			input = m.getArgAsFloat(0);
+			output.pathMaxVertices = ofMap( input, 0, 1, 5, 150 );
+		}
+
+		// Path Smooth Amount
+		if( address == "/3/fader2"){
+			input = m.getArgAsFloat(0);
+			output.pathSmoothAmount = ofMap( input, 0, 1, 0, 10 );
+		}
+
+		// Optical Flow Averaging area
+		if( address == "/3/fader3"){
+			input = m.getArgAsFloat(0);
+			output.opFlowAvgArea = ofMap( input, 0, 1, 1, 15 );
+		}
+
+		// Optical Flow Force Scale
+		if( address == "/3/fader4"){
+			input = m.getArgAsFloat(0);
+			output.opFlowForceScale = ofMap( input, 0, 1, 0, 100 );
+		}
+
+		// Use Outlines
+		if( address == "/3/toggle1"){
 			input = m.getArgAsInt32(0);
 			output.usePaths = input;
 		}
 	}
+}
+
+
+//--------------------------------------------------------------
+void testApp::processOSCoutput(){
+
+	ofxOscMessage m;
+
+	// Particle Saturation
+	m.setAddress("/1/fader1/");
+	m.addFloatArg( ofMap( output.pSat, 30, 255, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Brightness
+	m.clear();
+	m.setAddress("/1/fader2/");
+	m.addFloatArg( ofMap( output.pBri, 30, 255, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Hue Cycle Speed
+	m.clear();
+	m.setAddress("/1/fader3/");
+	m.addFloatArg( ofMap( output.pHueCycleSpeed, 30, 255, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Blur & Threshold
+	m.clear();
+	m.setAddress("/1/xy/");
+	m.addFloatArg( ofMap( motionTracker.CTblur,   1, 30,  0, 1 ) );
+	m.addFloatArg( ofMap( motionTracker.CTthresh, 1, 100, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Flip Horizontal
+	m.clear();
+	m.setAddress("/1/toggle1/");
+	m.addIntArg( motionTracker.CTflipHorizontal );
+	OSCoutput.sendMessage( m );
+
+	// Flip Vertical
+	m.clear();
+	m.setAddress("/1/toggle2/");
+	m.addIntArg( motionTracker.CTflipVertical );
+	OSCoutput.sendMessage( m );
+
+	// Show Images
+	m.clear();
+	m.setAddress("/1/toggle3/");
+	m.addIntArg( drawImages );
+	OSCoutput.sendMessage( m );
+
+	// Use Particles
+	m.clear();
+	m.setAddress("/2/toggle1/");
+	m.addIntArg( output.useParticles );
+	OSCoutput.sendMessage( m );
+
+	// Fade To Black
+	m.clear();
+	m.setAddress("/2/toggle2/");
+	m.addIntArg( output.fadeToBlack );
+	OSCoutput.sendMessage( m );
+
+	// Particle Life Min
+	m.setAddress("/2/fader1/");
+	m.addFloatArg( ofMap( output.pLifeMin, 1, 100, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Life Max
+	m.setAddress("/2/fader2/");
+	m.addFloatArg( ofMap( output.pLifeMax, 1, 100, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Size Min
+	m.setAddress("/2/fader3/");
+	m.addFloatArg( ofMap( output.pSizeMin, 1, 100, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Size Max
+	m.setAddress("/2/fader4/");
+	m.addFloatArg( ofMap( output.pSizeMax, 1, 100, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Drag Min
+	m.setAddress("/2/fader5/");
+	m.addFloatArg( output.pSizeMin );
+	OSCoutput.sendMessage( m );
+
+	// Particle Drag Max
+	m.setAddress("/2/fader6/");
+	m.addFloatArg( output.pSizeMax );
+	OSCoutput.sendMessage( m );
+
+	// Particle Colour Range
+	m.setAddress("/2/fader7/");
+	m.addFloatArg( ofMap( output.pRandColRange, 1, 50, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Particle Colour Interval
+	m.setAddress("/2/fader8/");
+	m.addFloatArg( ofMap( output.pRandColInterval, 1, 50, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Path Max Vertices
+	m.setAddress("/3/fader1/");
+	m.addFloatArg( ofMap( output.pathMaxVertices, 5, 150, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+	
+	// Path Smooth Amount
+	m.setAddress("/3/fader2/");
+	m.addFloatArg( ofMap( output.pathMaxVertices, 0, 10, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+	
+	// Optical Flow Averaging Area
+	m.setAddress("/3/fader3/");
+	m.addFloatArg( ofMap( output.opFlowAvgArea, 1, 15, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Optical Flow Force Scale
+	m.setAddress("/3/fader4/");
+	m.addFloatArg( ofMap( output.opFlowForceScale, 0, 100, 0, 1 ) );
+	OSCoutput.sendMessage( m );
+
+	// Use Outlines
+	m.clear();
+	m.setAddress("/3/toggle1/");
+	m.addIntArg( output.usePaths );
+	OSCoutput.sendMessage( m );
+
+
 }
 
 
