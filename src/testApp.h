@@ -35,21 +35,10 @@ class testApp : public ofBaseApp
 
 private:
 		
-	//  SIZE OF VARIOUS INPUTS & OUTPUTS
+	//  SIZES OF INPUTS & OUTPUTS
 
 		int camX;
 		int camY;
-	
-		int processX;
-		int processY;
-		
-		int halfX;
-		int halfY;
-
-		int outputX;
-		int outputY;
-		int outputW;
-		int outputH;
 
 	// PROGRAM COMPONENTS
 
