@@ -34,13 +34,15 @@ class testApp : public ofBaseApp
 		void windowResized( int w, int h );
 
 private:
-		
-	//  SIZES OF INPUTS & OUTPUTS
+	
+		void initGUI();
+		void processOSCinput();
+		void processOSCoutput();
+		void updateValidPresets();
+
 
 		int camX;
 		int camY;
-
-	// PROGRAM COMPONENTS
 
 		ofxSimpleGuiToo     gui;
 
@@ -55,8 +57,6 @@ private:
 		ofxOscReceiver OSCinput;
 		ofxOscSender   OSCoutput;
 
-		void processOSCinput();
-		void processOSCoutput();
 
 		ofDirectory dir;
 
@@ -65,6 +65,9 @@ private:
 
 
 	// COULD BE SEPERATED INTO OUTPUTMANAGER
+
+		vector<string> presetNames;
+		int currentPreset;
 
 		float rendererLastChanged;
 		float presetLastChanged;

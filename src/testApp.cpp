@@ -7,7 +7,7 @@ void testApp::setup(void)
 	ofSetWindowPosition( 0, 0 );
 	ofSetWindowShape( ofGetScreenWidth()*2, ofGetScreenHeight() );
 	
-	ofBackground( 0, 0, 0 );
+	ofBackground( 255, 255, 255 );
 	ofSetBackgroundAuto( true );
 	ofEnableAlphaBlending();
 	ofEnableSmoothing();
@@ -29,10 +29,32 @@ void testApp::setup(void)
 
 	OSCoutput.setup( "192.168.233.101", 9000 );
 
+	initGUI();
+
+	output.setup( motionTracker );
+	output.setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
+
 	mouseParticles.init( 100 );
 
 	vector<string> presetFiles;
 
+
+	rendererLastChanged = ofGetElapsedTimeMillis();
+	presetLastChanged   = ofGetElapsedTimeMillis();
+	rendererTimeout = 5;
+	presetTimeout = 2;
+
+
+	processOSCoutput();
+
+	update();
+}
+
+
+
+//--------------------------------------------------------------
+void testApp::initGUI(){
+	
 	// Setup the GUI contents
 	gui.addTitle( "IMG PROCESSING", 30);
 	gui.addSlider("Blur Amount",     motionTracker.CTblur,   1, 30);
@@ -53,14 +75,9 @@ void testApp::setup(void)
 	gui.currentPage().setName("Tracking Options");
 	gui.loadFromXML();
 	
-	
-	// Initialise renderer
-	// -----------------------------------------
-	output.setup( motionTracker );
-	output.setOutputArea( 40+camX*2, 220, camX*2, camY*2 );
 
-	gui.addPage("Default_Renderer");
-	gui.setPage("Default_Renderer");
+	gui.addPage("Renderer Settings");
+	gui.setPage("Renderer Settings");
 	gui.currentPage().setXMLName("default_renderer_settings.xml");
 
 	gui.addTitle(  "Rendering");
@@ -92,27 +109,23 @@ void testApp::setup(void)
 	gui.addSlider( "Max Path Vertices", output.pathMaxVertices,  5, 150  );
 	gui.addSlider( "Path Smoothing",    output.pathSmoothAmount, 0, 10  );
 
+	currentPreset = 1;
+	updateValidPresets();
+	gui.addTitle("PRESETS");
+	gui.addComboBox( "Presets", currentPreset, presetNames.size(), &presetNames[0] );
+	//##################################
+	// GET VALUE OUT OF COMBO BOX
+	//##################################
 
 	//gui.addTitle ( "Images" );
 	//gui.addSlider( "Image Number",       output.currentImg, 0, 5      );
 	//gui.addToggle( "Randomised Colours", output.colourFromImgRandomly );
 
-
-	rendererLastChanged = ofGetElapsedTimeMillis();
-	presetLastChanged   = ofGetElapsedTimeMillis();
-	rendererTimeout = 5;
-	presetTimeout = 2;
-
-	
 	//gui.addColorPicker("Outline col");
 	//gui.addColorPicker("Motion  col");
 	gui.setPage("Tracking Options");
 	gui.setDefaultKeys(false);
 	gui.setAutoSave(false);
-
-	processOSCoutput();
-
-	update();
 }
 
 
@@ -120,7 +133,7 @@ void testApp::setup(void)
 void testApp::update()
 {
 	// Perform camera tracking
-	
+	cout << "\nPRESET : " << currentPreset; 
 
 	motionTracker.doTracking( vidWarpBox.dstPoints[3].x/2, vidWarpBox.dstPoints[3].y/2,
 						      vidWarpBox.dstPoints[2].x/2, vidWarpBox.dstPoints[2].y/2,
@@ -279,6 +292,8 @@ void testApp::keyPressed  (int key)
 
 			gui.currentPage().setXMLName( newFilename );
 			gui.currentPage().saveToXML();
+
+			updateValidPresets();
 			break;
 		 }
 
@@ -414,6 +429,7 @@ void testApp::mousePressed(int x, int y, int button)
 void testApp::mouseReleased(int x, int y, int button)
 {
 	processOSCoutput();
+	updateValidPresets();
 	vidWarpBox.mouseReleased( );
 }
 
@@ -773,6 +789,43 @@ string testApp::getTimeString(){
 	convert << local.tm_sec;
 	
 	return convert.str();
+}
+
+
+//--------------------------------------------------------------
+void testApp::updateValidPresets(){
+
+	dir.listDir("/presets/");
+	dir.sort();
+
+	vector<int> validPresets;
+	validPresets.clear();
+	presetNames.clear();
+	size_t found;
+
+	// Store the indexes of all files in /presets/ directory 
+	// whose filename contains the name of our current output
+	if( dir.size() )
+	{
+		for( int i=0; i<dir.size(); i++ )
+		{
+			found = dir.getName(i).find( "-" );
+			if( found != string::npos )
+			{
+				found = dir.getName(i).find( ".bak" );
+				if( found == string::npos )
+				{
+					validPresets.push_back(i);
+				}
+			}
+		}
+		// Print all matching files
+		cout << "\nFOUND " << validPresets.size() << " " << gui.currentPage().name << " PRESETS : ";
+		for( int i=0; i<validPresets.size(); i++ )
+		{
+			presetNames.push_back( dir.getName( validPresets.at(i) ) );
+		}				
+	}
 }
 
 
