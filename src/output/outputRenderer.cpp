@@ -222,8 +222,8 @@ void outputRenderer::updatePaths(){
 			}
 		
 			path.setFillColor( colour );
-			path.setStrokeColor( ofColor( 255, 255, 255, 2 ) );
-			path.setStrokeWidth( 5 );
+			path.setStrokeColor( ofColor( 255, 255, 255, 10 ) );
+			path.setStrokeWidth( 10 );
 			path.setFilled( true );
 
 		path.close();
@@ -245,7 +245,6 @@ void outputRenderer::drawPaths(){
 	ofEnableAlphaBlending();
 	for( int i = 0; i < simplePaths.size(); i++ ){
 		simplePaths.at(i).setFillColor( colour );
-		simplePaths.at(i).setStrokeWidth(2);
 		simplePaths.at(i).draw( );
 	}
 			

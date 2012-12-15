@@ -6,7 +6,8 @@ void testApp::setup(void)
 	// Draw app fullscreen over 2 monitors 
 	ofSetWindowPosition( 0, 0 );
 	ofSetWindowShape( ofGetScreenWidth()*2, ofGetScreenHeight() );
-	
+	ofSetFrameRate(120);
+
 	ofBackground( 255, 255, 255 );
 	ofSetBackgroundAuto( true );
 	ofEnableAlphaBlending();
@@ -86,6 +87,7 @@ void testApp::initGUI(){
 
 	gui.addTitle ( "Particles");
 	gui.addToggle( "Draw Particles",  output.useParticles  );
+	gui.addSlider( "Particles per frame", output.maxParticlesPerFrame, 10, 100  );
 	gui.addSlider( "Life min",        output.pLifeMin,         1, 100  );
 	gui.addSlider( "Life max",        output.pLifeMax,        10, 100  );
 	gui.addSlider( "Size min",        output.pSizeMin,         1, 100  );
@@ -95,16 +97,16 @@ void testApp::initGUI(){
 	gui.addSlider( "Colour range",    output.pRandColRange,    1, 50   );
 	gui.addSlider( "Colour interval", output.pRandColInterval, 1, 50   );
 	
+	gui.addTitle ( "Optical Flow");
+	gui.addSlider( "Averaging area", output.opFlowAvgArea,    1, 15  );
+	gui.addSlider( "Force scale",    output.opFlowForceScale, 0, 100 );
+
 	gui.addTitle( "Colour" );
 	gui.addSlider( "Saturation",  output.sat,  30, 255 );
 	gui.addSlider( "Brightness",  output.bri,  30, 255 );
 	gui.addSlider( "Alpha",       output.alpha, 1, 255 );
 	gui.addSlider( "Cycle Speed", output.hueCycleSpeed, 1, 100 );
-
-	gui.addTitle ( "Optical Flow");
-	gui.addSlider( "Averaging area", output.opFlowAvgArea,    1, 15  );
-	gui.addSlider( "Force scale",    output.opFlowForceScale, 0, 100 );
-
+	
 	gui.addTitle ( "Outlines");
 	gui.addToggle( "Draw Outlines", output.usePaths );
 	gui.addSlider( "Max Path Vertices", output.pathMaxVertices,  5, 150  );
@@ -876,6 +878,7 @@ void testApp::loadRandomPreset(){
 				randomPreset = removeTrailing;
 			}
 			// And load the preset
+			gui.setPage("Renderer Settings");
 			gui.currentPage().setXMLName( randomPreset );
 			gui.currentPage().loadFromXML();
 
