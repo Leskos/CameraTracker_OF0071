@@ -85,20 +85,21 @@ void testApp::initGUI(){
 	gui.addToggle( "Redraw Screen", output.redrawScreen );
 
 	gui.addTitle ( "Particles");
-	gui.addToggle( "Draw Particles", output.useParticles  );
-	gui.addSlider( "Life min", output.pLifeMin,   1, 100  );
-	gui.addSlider( "Life max", output.pLifeMax,  10, 100  );
-	gui.addSlider( "Size min", output.pSizeMin,   1, 100  );
-	gui.addSlider( "Size max", output.pSizeMax,   2, 200  );
-	gui.addSlider( "Drag min", output.pDragMin, 0.7, 0.95 );
-	gui.addSlider( "Drag max", output.pDragMax, 0.8, 1.0  );
-	gui.addSlider( "Colour range",    output.pRandColRange, 1, 50 );
-	gui.addSlider( "Colour interval", output.pRandColInterval, 1, 50 );
+	gui.addToggle( "Draw Particles",  output.useParticles  );
+	gui.addSlider( "Life min",        output.pLifeMin,         1, 100  );
+	gui.addSlider( "Life max",        output.pLifeMax,        10, 100  );
+	gui.addSlider( "Size min",        output.pSizeMin,         1, 100  );
+	gui.addSlider( "Size max",        output.pSizeMax,         2, 200  );
+	gui.addSlider( "Drag min",        output.pDragMin,       0.7, 0.95 );
+	gui.addSlider( "Drag max",        output.pDragMax,       0.8, 1.0  );
+	gui.addSlider( "Colour range",    output.pRandColRange,    1, 50   );
+	gui.addSlider( "Colour interval", output.pRandColInterval, 1, 50   );
 	
 	gui.addTitle( "Colour" );
-	gui.addSlider( "Saturation",  output.pSat, 30, 255 );
-	gui.addSlider( "Brightness",  output.pBri, 30, 255 );
-	gui.addSlider( "Cycle Speed", output.pHueCycleSpeed, 1, 100 );
+	gui.addSlider( "Saturation",  output.sat,  30, 255 );
+	gui.addSlider( "Brightness",  output.bri,  30, 255 );
+	gui.addSlider( "Alpha",       output.alpha, 1, 255 );
+	gui.addSlider( "Cycle Speed", output.hueCycleSpeed, 1, 100 );
 
 	gui.addTitle ( "Optical Flow");
 	gui.addSlider( "Averaging area", output.opFlowAvgArea,    1, 15  );
@@ -112,7 +113,7 @@ void testApp::initGUI(){
 	currentPreset = 1;
 	updateValidPresets();
 	gui.addTitle("PRESETS");
-	gui.addComboBox( "Presets", currentPreset, presetNames.size(), &presetNames[0] );
+	gui.addComboBox( "Presets", currentPreset, presetNames.size(), &presetNames[0] );  
 	//##################################
 	// GET VALUE OUT OF COMBO BOX
 	//##################################
@@ -457,20 +458,24 @@ void testApp::processOSCinput(){
 // Particle Saturation
 		if( address == "/1/fader1"){
 			input = m.getArgAsFloat(0);
-			output.pSat             = ofMap( input, 0, 1, 30, 255 );
+			output.sat             = ofMap( input, 0, 1, 30, 255 );
 		}
 
 // Particle Brightness
 		if( address == "/1/fader2"){
 			input = m.getArgAsFloat(0);
-			output.pBri             = ofMap( input, 0, 1, 30, 255 );
+			output.bri             = ofMap( input, 0, 1, 30, 255 );
 		}
 
 // Particle Hue Cycle Speed
 		if( address == "/1/fader3"){
 			input = m.getArgAsFloat(0);
-			output.pHueCycleSpeed   = ofMap( input, 0, 1,  0, 100 );
+			output.hueCycleSpeed   = ofMap( input, 0, 1,  0, 100 );
 		}
+
+// #########################################
+//           ADD ALPHA CONTROL
+// #########################################
 
 
 
@@ -617,19 +622,24 @@ void testApp::processOSCoutput(){
 	
 // Particle Saturation 30-255
 	m.setAddress("/1/fader1/");
-	m.addFloatArg( ofMap( output.pSat, 30, 255, 0, 1 ) );
+	m.addFloatArg( ofMap( output.sat, 30, 255, 0, 1 ) );
 	OSCoutput.sendMessage( m );
 
 // Particle Brightness
 	m.clear();
 	m.setAddress("/1/fader2/");
-	m.addFloatArg( ofMap( output.pBri, 30, 255, 0, 1 ) );
+	m.addFloatArg( ofMap( output.bri, 30, 255, 0, 1 ) );
 	OSCoutput.sendMessage( m );
+
+// #########################################
+//           ADD ALPHA CONTROL
+// #########################################
+
 
 // Particle Hue Cycle Speed
 	m.clear();
 	m.setAddress("/1/fader3/");
-	m.addFloatArg( ofMap( output.pHueCycleSpeed, 0, 100, 0, 1 ) );
+	m.addFloatArg( ofMap( output.hueCycleSpeed, 0, 100, 0, 1 ) );
 	OSCoutput.sendMessage( m );
 
 

@@ -141,6 +141,7 @@
     <ClCompile Include="addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
     <ClCompile Include="addons\ofxXmlSettings\src\ofxXmlSettings.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\OSC\OSCManager.cpp" />
     <ClCompile Include="src\output\outputRenderer.cpp" />
     <ClCompile Include="src\output\renderers\basicRenderer.cpp" />
     <ClCompile Include="src\output\renderers\bubbleRenderer.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="addons\ofxSimpleGuiToo\src\ofxSimpleGuiValueControl.h" />
     <ClInclude Include="addons\ofxXmlSettings\libs\tinyxml.h" />
     <ClInclude Include="addons\ofxXmlSettings\src\ofxXmlSettings.h" />
+    <ClInclude Include="src\OSC\OSCManager.h" />
     <ClInclude Include="src\output\outputRenderer.h" />
     <ClInclude Include="src\output\renderers\basicRenderer.h" />
     <ClInclude Include="src\output\renderers\bubbleRenderer.h" />

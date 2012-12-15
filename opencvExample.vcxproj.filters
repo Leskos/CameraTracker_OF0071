@@ -163,6 +163,9 @@
     <ClCompile Include="..\..\..\addons\ofxOsc\src\ofxOscSender.cpp">
       <Filter>addons\ofxOSC\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\OSC\OSCManager.cpp">
+      <Filter>src\OSC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -296,6 +299,9 @@
     </Filter>
     <Filter Include="addons\ofxOSC\libs\oscpack\src\ip\win32">
       <UniqueIdentifier>{e42dfdb5-0960-4216-908a-5408479a6a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\OSC">
+      <UniqueIdentifier>{e803c839-f964-4f71-9a42-7aef2ed8ac34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -739,6 +745,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxOsc\src\ofxOscSender.h">
       <Filter>addons\ofxOSC\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSC\OSCManager.h">
+      <Filter>src\OSC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

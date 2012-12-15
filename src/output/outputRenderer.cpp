@@ -21,10 +21,11 @@ outputRenderer::outputRenderer(){
 
 	maxParticlesPerFrame = 40;
 	
-	pHue = 0;
-	pSat = 140;
-	pBri = 200;
-	pHueCycleSpeed = 40;
+	hue   = 0;
+	sat   = 140;
+	bri   = 200;
+	alpha = 10;
+	hueCycleSpeed = 40;
 
 	opFlowForceScale  = 20;
 	opFlowAvgArea     = 5;
@@ -79,7 +80,7 @@ void outputRenderer::update(){
 
 	ofSetBackgroundAuto( redrawScreen );
 
-	particleColour.setHsb( fmodf(ofGetElapsedTimef()*pHueCycleSpeed,255), pSat, pBri );
+	colour.setHsb( fmodf(ofGetElapsedTimef()*hueCycleSpeed,255), sat, bri, alpha );
 
 		
 	if( tracking->motionContours.blobs.size() > 0 ){
@@ -146,10 +147,9 @@ void outputRenderer::seedNewParticles(){
 	
 									ofRandom( pSizeMin, pSizeMax ),
 
-									particleColour
+									ofColor::fromHsb( fmodf( colour.getHue()+ofRandom( 0, pRandColRange ) * pRandColInterval, 255 ), sat, bri, alpha ) 
 
 									);
-		p->setColor( ofColor::fromHsb( fmodf(particleColour.getHue()+ofRandom(0,pRandColRange)*pRandColInterval,255), pSat, pBri ) );
 		p->setLifetime( ofRandom( pLifeMin, pLifeMax ) );
 		p->setDrag( ofRandom( pDragMin, pDragMax ) );
 
@@ -221,8 +221,8 @@ void outputRenderer::updatePaths(){
 				path.lineTo( vertices.at(i).x, vertices.at(i).y );
 			}
 		
-			path.setFillColor( ofColor( 200, 150, 100, 100 ) );
-			path.setStrokeColor( ofColor( 255, 255, 255, 150 ) );
+			path.setFillColor( colour );
+			path.setStrokeColor( ofColor( 255, 255, 255, 2 ) );
 			path.setStrokeWidth( 5 );
 			path.setFilled( true );
 
@@ -241,11 +241,10 @@ void outputRenderer::drawPaths(){
 	ofGetCurrentRenderer()->translate( outputX, outputY );
 	ofGetCurrentRenderer()->scale( outputScaleX, outputScaleY );
 	
-	ofColor pathFillColour = particleColour;
-	pathFillColour.setBrightness( pathFillColour.getBrightness()-30 );
-
+	
+	ofEnableAlphaBlending();
 	for( int i = 0; i < simplePaths.size(); i++ ){
-		simplePaths.at(i).setFillColor( pathFillColour );
+		simplePaths.at(i).setFillColor( colour );
 		simplePaths.at(i).setStrokeWidth(2);
 		simplePaths.at(i).draw( );
 	}
