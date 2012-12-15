@@ -5,6 +5,7 @@
 #include "ofxSimpleGuiToo.h"
 #include "ofVectorMath.h"
 #include "ofxOpenCv.h"
+#include "ofxOsc.h"
 
 #include "ParticleSystem.h"
 #include "boxWithHandles.h"
@@ -33,21 +34,15 @@ class testApp : public ofBaseApp
 		void windowResized( int w, int h );
 
 private:
-		
-		//  SIZE OF VARIOUS INPUTS & OUTPUTS
+	
+		void initGUI();
+		void processOSCinput();
+		void processOSCoutput();
+		void updateValidPresets();
+
+
 		int camX;
 		int camY;
-	
-		int processX;
-		int processY;
-		
-		int halfX;
-		int halfY;
-
-		int outputX;
-		int outputY;
-		int outputW;
-		int outputH;
 
 		ofxSimpleGuiToo     gui;
 
@@ -59,14 +54,20 @@ private:
 
 		outputRenderer output;
 
+		ofxOscReceiver OSCinput;
+		ofxOscSender   OSCoutput;
+
+
 		ofDirectory dir;
 
 		bool                drawImages;
 		bool                drawDebugInfo;
 
-		void changeOutputRenderer( string fileName );
 
-		string getTimeString();
+	// COULD BE SEPERATED INTO OUTPUTMANAGER
+
+		vector<string> presetNames;
+		int currentPreset;
 
 		float rendererLastChanged;
 		float presetLastChanged;
@@ -76,7 +77,10 @@ private:
 
 		void loadRandomPreset();
 		void loadRandomRenderer();
-			
+		
+		void changeOutputRenderer( string fileName );
+		
+		string getTimeString();
 };
 
 #endif

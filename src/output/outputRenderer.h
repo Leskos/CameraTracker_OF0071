@@ -41,11 +41,12 @@ class outputRenderer
 
 		int maxParticlesPerFrame;
 
-		ofColor particleColour;
-		float pHue;
-		float pSat;
-		float pBri;
-		float pHueCycleSpeed;
+		ofColor colour;
+		float hue;
+		float sat;
+		float bri;
+		float alpha;
+		float hueCycleSpeed;
 
 		int pRandColRange;
 		int pRandColInterval;
@@ -73,9 +74,7 @@ class outputRenderer
 		motionTracking *tracking;
 
 		float outputScaleX, outputScaleY;
-
-		void initialiseDefaultValues();
-
+		
 		bool useOpticalFlow;
 
    		ParticleSystem particles;
